@@ -5,9 +5,12 @@ uma rede social, ou quase...
 Bora lá!
 
 Obs:
-• Necessário Python 3
-• Necessário VirtualEnv
-• pip3
+```sh
+° Necessário:
+    • Python 3
+    • VirtualEnv
+    • pip3
+```
 
 (Adapte seu código, caso seja de plataforma
 ou versão do python diferente)
@@ -46,4 +49,4 @@ Em seguida será redirecionado ao Index novamente,
 Note q tera um link 'no que esta pensando?' 
 Se clique nele vc sera redirecionado a uma página para criar
 Uma publicação, escreva oq quiser, selecione uma imagem (ou várias)
-E cliente no botão 'enviar', após isso, volte a tela inicial e vera sua publicação!
+E cliente no botão 'enviar', após isso, volte a tela inicial e vc poderá ver sua publicação!
