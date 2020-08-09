@@ -15,11 +15,12 @@ class ImgPost(db.Model):
 	post = db.relationship('Post')
 	
 	
-	def __init__(self,id_post,imagem):
-		self.id_post = id_post
+	def __init__(self,post_id,imagem):
+		self.id_post = post_id
 		self.imagem_dt = imagem.read()
 		
-
+	def __repr__(self):
+		return f"<Imagem: post n° {self.id}>"
 
 class ImgPostSchema(ma.SQLAlchemyAutoSchema):
 	class Meta:

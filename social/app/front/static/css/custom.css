@@ -6,7 +6,9 @@ html, body
 	flex-direction: column;
 	height: 100%;
 }
-
+img{
+	width: 100%;
+}
 
 #nav 
 {

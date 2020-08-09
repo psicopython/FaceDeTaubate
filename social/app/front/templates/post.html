@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Criar Post {% endblock titulo %}
+
+{% block conteudo %}
+	<form method="post" action="{{url_for('webui.post')}}" enctype="multipart/form-data">
+		<textarea placeholder="No que esta pensando?" name="body"></textarea>
+		<input type="file" name="img" multiple >
+		<button type="submit">Enviar</button>
+	</form>
+{% endblock conteudo %}

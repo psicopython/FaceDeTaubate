@@ -27,6 +27,11 @@ class User(db.Model):
 		self.data_nas = datetime.utcnow()
 		self.username  = username
 	
+	
+	def __repr__(self):
+		return f"<Usuário {self.username}| id:{self.id}>"
+	
+	
 	def ver_pass(self,senha):
 		return cph(self.senha,senha)
 		

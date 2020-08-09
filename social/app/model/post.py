@@ -1,5 +1,4 @@
-from . import db
-from . import ma
+from . import db, ma
 
 from datetime import datetime
 
@@ -17,10 +16,13 @@ class Post(db.Model):
 	user = db.relationship('User')
 	
 	
-	def __init__(self,id_user,body_post):
-		self.id_user = id_user
-		self.body_post = body_post
-
+	def __init__(self,user_id,body):
+		self.id_user = user_id
+		self.body_post = body
+		
+		
+	def __repr__(self):
+		return f"< Post {self.id}>"
 
 
 class PostSchema(ma.SQLAlchemyAutoSchema):

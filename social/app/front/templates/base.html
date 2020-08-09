@@ -9,10 +9,10 @@
 	</head>
 	<body>
 		<nav id="nav">
-				<span id="navTitle" class="left"><a href="{{url_for('webui.index')}}">NavBar</a>
+				<span id="navTitle" class="left"><a href="{{url_for('webui.index')}}">DeepWebson</a>
 				</span>
 				<span id="navMenu" onclick="$('#menu').toggle()">|||</span>
-			<ul id="menu">
+			<ul id="menu"><br><br>
 				<li><a href="/">Home</a></li>
 				{% if user %}
 					<li><a href="/logout/">Logout</a></li>
@@ -23,6 +23,11 @@
 				{% endif %}
 			</ul>
 		</nav>
+		{% if user %}
+		<div>
+			<a href="{{url_for('webui.post')}}">Postar Algo?</a>
+		</div>
+		{% endif %}
 		<div class="conteiner">
 		{% block conteudo %}
 		

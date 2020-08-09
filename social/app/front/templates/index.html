@@ -6,13 +6,21 @@
 
 
 {% block conteudo %}
-{% if user %}
-	<ul>
-		<li>Nome: {{user.nome}}</li>
-		<li>Email: {{user.email}}</li>
-		<li>Tel: {{user.tel}}</li>
-		<li>Usuário: {{user.username}}</li>
-	</ul>
+{% if imgs %}
+	{% for post in posts %}
+	<div>
+		<p>{{post.body_post}}</p>
+		{% for img in imgs[post.id] %}
+			{% if img[1] %}
+				<div>
+					<img src="data:;base64,{{img}}">
+				</div>
+			{% else %}
+				<img src="data:;base64,{{imgs[post.id][0]}}">
+			{% endif %}
+		{% endfor %}
+	</div>
+	{% endfor %}
 {% else %}
 	nada
 {% endif %}

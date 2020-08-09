@@ -70,5 +70,4 @@ def cadastro():
 		session['user_id'] = user.id
 		return redirect('/')
 	else:
-		print('\n\nfora\n\n')
 		return render_template('cadastro.html'),200
