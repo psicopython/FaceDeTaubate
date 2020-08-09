@@ -1,13 +1,18 @@
 # FaceDeTaubate
-uma rede social, ou quase...
+## Uma rede social, ou quase...
+
+
+Esse app esta em produção no link:
+
+[https://ethosocial.herokuapp.com](https://ethosocial.herokuapp.com)
 
 
 Bora lá!
 
-Obs:
+__Obs:__
 ```sh
 ° Necessário:
-    • Python 3
+    • Python >= 3.6
     • VirtualEnv
     • pip3
 ```
