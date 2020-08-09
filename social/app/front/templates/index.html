@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+
+{% block titulo %}  index  {% endblock titulo%}
+
+
+{% block conteudo %}
+{% if user %}
+	<ul>
+		<li>Nome: {{user.nome}}</li>
+		<li>Email: {{user.email}}</li>
+		<li>Tel: {{user.tel}}</li>
+		<li>Usuário: {{user.username}}</li>
+	</ul>
+{% else %}
+	nada
+{% endif %}
+{% endblock conteudo %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Cadastro {% endblock titulo%}
+
+
+{% block conteudo %}
+
+{% with mensagem = get_flashed_messages() %}
+	{% if mensagem %}
+	<ul class="flashed">
+		{% for men in mensagem %}
+		<li>{{men}}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+{% endwith %}
+
+<form action="/cadastro/" method="post">
+	<input type="text"     placeholder="Nome"               name="nome">
+	<input type="date"     placeholder="Data de nascimento" name="data">
+	<input type="tel"      placeholder="Telefone"           name="tel">
+	<input type="text"     placeholder="Nome de usuário"    name="username">
+	<input type="email"    placeholder="Email"              name="email">
+	<input type="email"    placeholder="Confirme o Email"   name="email2">
+	<input type="password" placeholder="Senha"              name="senha">
+	<input type="password" placeholder="Confirme a Senha"   name="senha2"><br>
+	<button type="submit">Enviar</button>
+</form>
+{% endblock conteudo %}
