@@ -7,10 +7,18 @@ import base64
 
 
 def index():
+	
 	user = None
 	if 'user_id' in session:
 		user = User.query.filter_by(id=session['user_id']).first()
-	posts = Post.query.all()
+
+
+	#posts = Post.query.all()
+	posts = posts_Schema.dump(Post.query.all())
+	for post in posts:
+		post["user"] = User.query.filter_by(id=post["id_user"]).first()
+	
+	
 	imgs  = ImgPost.query.all()
 	dic = {}
 	for img in imgs:
@@ -19,4 +27,5 @@ def index():
 		else:
 			dic[img.id_post] = [base64.b64encode(img.imagem_dt).decode('ascii')]
 	
-	return render_template('index.html',user=user,imgs=dic,posts=posts_Schema.dump(Post.query.all()))
+	
+	return render_template('index.html',user=user,imgs=dic,posts=posts,count=0)

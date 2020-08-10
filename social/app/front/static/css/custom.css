@@ -6,51 +6,50 @@ html, body
 	flex-direction: column;
 	height: 100%;
 }
+
+#nav 
+{
+	background-color:#000 !important;
+	
+}
+#form-search {
+	width: 100%;
+	display: none;
+}
+#form-search input{
+	width: 90%;
+	margin: 0px 5%;
+}
+#form-search button{
+	width: 30%;
+}
+.publicacoes {
+	position: relative;
+	border: 1px solid gray;
+	border-radius: 20px;
+	padding: 20px 10px;
+}
+.publicacoes h3,p,sub{
+	margin: 0px 10%;
+	width: 80%;
+}
+
+
 img{
 	width: 100%;
 }
 
-#nav 
-{
-	background-color: black;
-	color: #da910a;
-	padding: 10px 0px;
-	
-}
-#navTitle {
-	height: 50px;
-	width: 80%;
-}
-#navMenu 
-{
-	height: 50px;
-	width: 20%;
-}
-#menu
-{
-	display: none;
-	flex-direction: column;
-	
-	list-style: none;
-	
+
+.editar{
 	width: 100%;
 }
 
 
-.left
-{
-	float: left;
-}
-
-.rigth
-{
-	float: rigth;
-}
-
 
 footer
 {
-	margin-top: 100%;
+	display: flex;
+	margin-top: 10%;
 	width: 100%;
 	height: 100px;
 	display: flex;
@@ -68,31 +67,11 @@ footer
 }
 
 
-input
+
+
+input:focus, textarea:focus, select:focus, button:fucus
 {
-	width: 80%;
-	margin: 10px 10%;
-	border: none;
-	border-bottom: 1px solid black;
-}
-
-
-input:not(:placeholder-shown):valid
-{
-	border-bottom-color: #21c50b;
-}
-
-
-input:not(:placeholder-shown):invalid
-{
-	
-	border-bottom-color: #e42a2a;
-}
-
-
-input:focus, textarea:focus, select:focus
-{
-	outline: none;
+	outline: none !important;
 }
 
 a{

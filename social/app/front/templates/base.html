@@ -6,36 +6,52 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<title>{% block titulo %}{% endblock titulo %}</title>
 		<link rel="stylesheet" href="{{url_for('static',filename='css/custom.css')}}">
+		<link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
+          
 	</head>
+
 	<body>
-		<nav id="nav">
-				<span id="navTitle" class="left"><a href="{{url_for('webui.index')}}">DeepWebson</a>
-				</span>
-				<span id="navMenu" onclick="$('#menu').toggle()">|||</span>
-			<ul id="menu"><br><br>
-				<li><a href="/">Home</a></li>
-				{% if user %}
-					<li><a href="/logout/">Logout</a></li>
-				{% else %}
-				<li><a href="/cadastro/">Cadastro</a></li>
-				<li><a href="/login/">Login</a></li>
-				<li>sei lá</li>
-				{% endif %}
-			</ul>
+
+		<nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="/">DeepWebSocial</a>
+		
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="{{url_for('webui.index')}}">Home </a>
+					</li>
+					{% if user %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{url_for('webui.index')}}">Perfil</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{url_for('webui.logout')}}">Sair</a>
+						</li>
+					{% else %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{url_for('webui.cadastro')}}">Cadastro</a>
+						</li>
+						 <li class="nav-item">
+							<a class="nav-link" href="{{url_for('webui.login')}}">Login</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
 		</nav>
 		{% if user %}
-		<div>
-			<a href="{{url_for('webui.post')}}">Postar Algo?</a>
-		</div>
+			{% if request.path != "/post/" %}
+				<div>
+					<a href="{{url_for('webui.post')}}">No que você está pensando?</a>
+				</div>
+			{% endif %}
 		{% endif %}
-		<div class="conteiner">
-		{% block conteudo %}
 		
-		{% endblock conteudo %}
-		</div>
-		<footer>
-			Copyright &copy;
-		</footer>
+		<div id="section" class="conteiner">{% block conteudo %}{% endblock conteudo %}</div>
+		<footer>Copyright &copy;</footer>
 		
 		<script src="{{url_for('static',filename='js/jquery.js')}}"></script>
 		<script src="{{url_for('static',filename='js/popper.js')}}"></script>

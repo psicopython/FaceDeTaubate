@@ -11,9 +11,9 @@ def cadastro():
 		return redirect('/')
 		
 	if request.method.upper() == 'POST':
-		tel = request.form['tel']
-		nome = request.form['nome']
+		#tel = request.form['tel']
 		#data = request.form['data']
+		nome = request.form['nome']
 		email = request.form['email']
 		email2 = request.form['email2']
 		senha = request.form['senha']
@@ -57,13 +57,10 @@ def cadastro():
 			flash(" Usuário não disponível!")
 			return redirect(request.url)
 			
-		if User.query.filter_by(tel=tel).first():
-			flash(" Usuário não disponível!")
-			return redirect(request.url)
 		
 		
 		
-		user = User(tel=tel,nome=nome,email=email,senha=senha,username=username)
+		user = User(nome=nome,email=email,senha=senha,username=username)
 		
 		current_app.db.session.add(user)
 		current_app.db.session.commit()

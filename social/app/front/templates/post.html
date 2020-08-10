@@ -3,9 +3,20 @@
 {% block titulo %} Criar Post {% endblock titulo %}
 
 {% block conteudo %}
-	<form method="post" action="{{url_for('webui.post')}}" enctype="multipart/form-data">
-		<textarea placeholder="No que esta pensando?" name="body"></textarea>
-		<input type="file" name="img" multiple >
-		<button type="submit">Enviar</button>
+	{% with mensagem = get_flashed_messages() %}
+		{% if mensagem %}
+			{% for msg in mensagem%}
+			<p class="alert alert-danger">{{msg}}</p>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+	
+	<form method="post" class="form-data" action="{{url_for('webui.post')}}" enctype="multipart/form-data">
+		<textarea class="form-control" placeholder="No que esta pensando?" name="body"></textarea><br>
+		<input id="input-file" class="form-control-file" type="file" accept="image/*" name="img" multiple ><br>
+		<div id="preview">
+			
+		</div>
+		<button class="form-control btn btn-outline-primary" type="submit">Enviar</button>
 	</form>
 {% endblock conteudo %}

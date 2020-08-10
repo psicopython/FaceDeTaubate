@@ -18,15 +18,13 @@ def post():
 	else:
 		user = User.query.filter_by(id=session['user_id']).first()
 	if request.method.upper() == 'POST':
-		if not request.files:
-			...
 		body = request.form['body']
 		imgs = request.files.getlist('img')
 		img_list = []
 		for img in imgs:
 			img_list.append(img)
 		
-		if img_list and body:
+		if img_list or body:
 			post = Post(user_id=session['user_id'],body=body)
 			current_app.db.session.add(post)
 			current_app.db.session.commit()
@@ -35,10 +33,9 @@ def post():
 				current_app.db.session.add(imgPost)
 				current_app.db.session.commit()
 				
-			flash('post criado com sucesso!')
-			return redirect(request.url)
+			return redirect('/')
 		else:
-			flash('Todos os campos devem ser preenchidos! ')
+			flash('Algum campo deve ser preenchido! ')
 			return redirect(request.url)
 		
 		

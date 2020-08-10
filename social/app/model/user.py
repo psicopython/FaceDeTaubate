@@ -11,20 +11,18 @@ class User(db.Model):
 	__tablename__="user"
 	
 	id = db.Column(db.Integer,primary_key=True)
-	tel = db.Column(db.String(20),unique=True,nullable=False)
 	nome = db.Column(db.String(128),nullable=False)
 	email = db.Column(db.String(128),unique=True,nullable=False)
 	senha  = db.Column(db.String(512),nullable=False)
-	data_cr = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False)
-	data_nas = db.Column(db.DateTime,nullable=False)
+	data_cr = db.Column(db.DateTime,nullable=False)
 	username  = db.Column(db.String, unique=True,nullable=False)
 	
-	def __init__(self,tel,nome, email,senha,username):
-		self.tel = tel
+	def __init__(self,nome, email,senha,username):
+	
 		self.nome = nome
 		self.email = email
 		self.senha  = gph(senha)
-		self.data_nas = datetime.utcnow()
+		self.data_cr = datetime.now()
 		self.username  = username
 	
 	

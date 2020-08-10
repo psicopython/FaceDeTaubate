@@ -10,13 +10,14 @@ class ImgPost(db.Model):
 	
 	id = db.Column(db.Integer,primary_key=True)
 	id_post = db.Column(db.Integer,db.ForeignKey('post.id'),nullable=False)
-	data_upl = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False)
+	data_upl = db.Column(db.DateTime,nullable=False)
 	imagem_dt = db.Column(db.BLOB,nullable=False)
 	post = db.relationship('Post')
 	
 	
 	def __init__(self,post_id,imagem):
 		self.id_post = post_id
+		self.data_upl = datetime.now()
 		self.imagem_dt = imagem.read()
 		
 	def __repr__(self):

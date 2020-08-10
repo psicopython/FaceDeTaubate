@@ -7,23 +7,22 @@
 
 {% with mensagem = get_flashed_messages() %}
 	{% if mensagem %}
-	<ul class="flashed">
 		{% for men in mensagem %}
-		<li>{{men}}</li>
+		<p class="alert alert-danger">{{men}}</p>
 		{% endfor %}
-	</ul>
 	{% endif %}
 {% endwith %}
 
 <form action="/cadastro/" method="post">
-	<input type="text"     placeholder="Nome"               name="nome">
-	<input type="date"     placeholder="Data de nascimento" name="data">
-	<input type="tel"      placeholder="Telefone"           name="tel">
-	<input type="text"     placeholder="Nome de usuário"    name="username">
-	<input type="email"    placeholder="Email"              name="email">
-	<input type="email"    placeholder="Confirme o Email"   name="email2">
-	<input type="password" placeholder="Senha"              name="senha">
-	<input type="password" placeholder="Confirme a Senha"   name="senha2"><br>
-	<button type="submit">Enviar</button>
+	<input class="form-control" type="text"     placeholder="Nome"               name="nome"><br>
+	<input class="form-control" type="text"     placeholder="Nome de usuário"    name="username"><br>
+	<input class="form-control" type="email"    placeholder="Email"              name="email"><br>
+	<input class="form-control" type="email"    placeholder="Confirme o Email"   name="email2"><br>
+	<input class="form-control senha" type="password" placeholder="Senha"              name="senha"><br>
+	<input class="form-control senha" type="password" placeholder="Confirme a Senha"   name="senha2"><br>
+	<input class="btn-senha" type="checkbox" id="btn-senha" onclick="senha"><label for="btn-senha" class="lab-senha">Mostrar Senha</label>
+	<button class="form-control btn btn-outline-primary" type="submit">Cadastrar</button>
+	<br><br>
+	<sub><a class="btn btn-outline-link" href="/login/">Login</a></sub>
 </form>
 {% endblock conteudo %}
