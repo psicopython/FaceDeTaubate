@@ -6,7 +6,10 @@ html, body
 	flex-direction: column;
 	height: 100%;
 }
-
+.miniatura{
+	width: 10%;
+	border-radius: 50%;
+}
 #nav 
 {
 	background-color:#000 !important;

@@ -4,6 +4,7 @@ from flask import (
 	flash, session
 )
 from app.model.user import User
+from app.model.user_img import UserImg
 
 
 def cadastro():
@@ -19,6 +20,8 @@ def cadastro():
 		senha = request.form['senha']
 		senha2 = request.form['senha2']
 		username = request.form['username']
+		imgs = request.files.getlist('img')
+		
 		
 		if not nome:
 			flash('O campo "Nome" não pode ficar vazio!')
@@ -40,31 +43,37 @@ def cadastro():
 		
 		
 		
-		if senha != senha2:
-			flash(" As senhas não coincidem!")
-			return redirect(request.url)
 		if email != email2:
 			flash(" Os emails não coincidem!")
 			return redirect(request.url)
-			
-			
-			
-		if User.query.filter_by(email=email).first():
-			flash(" Email não disponível!")
+		
+		if senha != senha2:
+			flash(" As senhas não coincidem!")
 			return redirect(request.url)
-	
+		
+		
+			
 		if User.query.filter_by(username=username).first():
 			flash(" Usuário não disponível!")
 			return redirect(request.url)
 			
-		
-		
+		if User.query.filter_by(email=email).first():
+			flash(" Email não disponível!")
+			return redirect(request.url)
+			
 		
 		user = User(nome=nome,email=email,senha=senha,username=username)
 		
 		current_app.db.session.add(user)
 		current_app.db.session.commit()
 		session['user_id'] = user.id
+		
+		if imgs:
+			user_img=UserImg(imagem=imgs[0],id_user=user.id)
+			current_app.db.session.add(user_img)
+			current_app.db.session.commit()
+			print("\n\n salvou\n\n")
+			
 		return redirect('/')
 	else:
 		return render_template('cadastro.html'),200

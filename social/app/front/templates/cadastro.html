@@ -13,8 +13,12 @@
 	{% endif %}
 {% endwith %}
 
-<form action="/cadastro/" method="post">
+<form action="/cadastro/" method="post" enctype="multipart/form-data">
 	<input class="form-control" type="text"     placeholder="Nome"               name="nome"><br>
+	<fieldset>
+		<legend><sub>Foto Perfil</sub></legend>
+		<input id="foto" type="file" accept="image/*" name="img"><br>
+	</fieldset><br>
 	<input class="form-control" type="text"     placeholder="Nome de usuário"    name="username"><br>
 	<input class="form-control" type="email"    placeholder="Email"              name="email"><br>
 	<input class="form-control" type="email"    placeholder="Confirme o Email"   name="email2"><br>

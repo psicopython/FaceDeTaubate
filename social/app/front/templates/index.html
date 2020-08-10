@@ -16,12 +16,17 @@
 				<a class="btn btn-outline-warning" href="/editar/post/{{post.id}}/">Editar</a>
 				<a class="btn btn-outline-danger" href="/excluir/post/{{post.id}}/">excluir</a>
 			</div>
-			{% endif %}
 			
-			<h3>{{post.user.nome}}</h3>
-			<sup>@{{post.user.username}}</sup><br>
-			<br>
+
+			{% endif %}
+			<h3>
+			{% if post.perfil %}
+			<img class="miniatura" src="data:;base64,{{post.perfil}}">
+			{% endif %}
+			{{post.user.nome}}</h3>
 			<sup>{{post.data_cr[8:10]}}/{{post.data_cr[5:7]}}/{{post.data_cr[:4]}} às {{post.data_cr[11:16]}}</sup>
+			<br><sup>@{{post.user.username}}</sup><br>
+			<br>
 			<pre>{{post.body_post}}</pre>
 			<hr>
 			<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
