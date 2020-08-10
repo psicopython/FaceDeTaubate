@@ -5,6 +5,7 @@ from .index    import index
 
 from .posts      import post
 from .posts      import reacao
+from .posts      import unlike
 from .posts      import comentario
 
 from .del_pag    import del_pag
@@ -33,8 +34,12 @@ bp.add_url_rule('/post/', methods=["GET","POST"],
 bp.add_url_rule('/post/comentario/<int:id>/', methods=["GET","POST"],
 	view_func=comentario,endpoint='comentario')
 
-bp.add_url_rule('/post/reacao/<int:id>/', methods=["GET"],
+
+bp.add_url_rule('/post/like/<int:id>/', methods=["GET"],
 	view_func=reacao,endpoint='reacao')
+	
+bp.add_url_rule('/post/unlike/<int:id>/', methods=["GET"],
+	view_func=unlike,endpoint='unlike')
 
 
 bp.add_url_rule('/excluir/<string:pag>/<int:id>/',  methods=["GET","POST"],

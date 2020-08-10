@@ -11,17 +11,19 @@
 		<hr>
 		<div class="publicacoes">
 			{% if user.id == post.user.id %}
-			<span class="btn btn-outline-primary" onclick="$('.editar-{{post.id}}').toggle()"> |||</span><br>
+			<span class="" onclick="$('.editar-{{post.id}}').toggle()">...</span><br>
 			<div  style="display:none;" class="editar-{{post.id}}">
 				<a class="btn btn-outline-warning" href="/editar/post/{{post.id}}/">Editar</a>
 				<a class="btn btn-outline-danger" href="/excluir/post/{{post.id}}/">excluir</a>
 			</div>
 			{% endif %}
 			
-			<h3>{{post.user.username}}</h3>
-			<sub>{{post.data_cr[8:10]}}/{{post.data_cr[5:7]}}/{{post.data_cr[:4]}} às {{post.data_cr[11:16]}}</sub>
-			<br><br>
-			<p><b><i>{{post.body_post}}</i></b></p>
+			<h3>{{post.user.nome}}</h3>
+			<sup>@{{post.user.username}}</sup><br>
+			<br>
+			<sup>{{post.data_cr[8:10]}}/{{post.data_cr[5:7]}}/{{post.data_cr[:4]}} às {{post.data_cr[11:16]}}</sup>
+			<pre>{{post.body_post}}</pre>
+			<hr>
 			<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
 	 			<div class="carousel-inner">
 					{% for img in imgs[post.id] %}
@@ -44,11 +46,18 @@
 				</div>
 			</div>
 			<span>likes {{post.reac|length}}</span> | <span onclick="$('#comentario-{{post.id}}').toggle()">Comentarios {{post.comm|length}}</span>
-			
+			<br>
+			{%if user %}
+				{% if post.Liked %}
+					<a class="btn btn-outline-danger" href="/post/unlike/{{post.id}}/">Unlike</a>
+				{% else %}
+					<a class="btn btn-outline-primary" href="/post/like/{{post.id}}/">Like</a>
+				{% endif %}
+			{% endif %}
 			{% if post.comm %}
 				<div id="comentario-{{post.id}}" class="publicacoes" style="display:none;">
 					{% for comm in post.comm%}
-						<p>
+						<div class="">
 							<b>{{post.user.username}}
 							{% if comm.id_user == post.id_user %}
 								<sup>autor</sup>
@@ -61,15 +70,15 @@
 								</div>
 							{% endif %}
 							</b>
-							<p><i>{{comm.body}}</i></p>
-						</p>
+							<pre><i>{{comm.body}}</i></pre>
+						</div>
 					{% endfor %}
 				</div>
 			{% endif%}
 			<br>
 			{% if user %}
 				<form action="/post/comentario/{{post.id}}/" method="post">
-					<input type="text" name="body" class="form-control" placeholder="comentario"><br>
+					<textarea type="text" name="body" class="form-control" placeholder="comentario"></textarea><br>
 					<button type="submit" class="form-control btn btn-primary">Comentar</button>
 				</form>
 			{% endif %}

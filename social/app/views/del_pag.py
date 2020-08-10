@@ -4,6 +4,7 @@ from flask import (
 )
 from app.model         import db
 from app.model.post    import Post
+from app.model.reacoes import Reacoes
 from app.model.ImgPost import ImgPost
 from app.model.comentario import Comentario
 
@@ -18,6 +19,7 @@ def del_pag(pag,id):
 			post = Post.query.filter_by(id=id).first()
 			imgs = ImgPost.query.filter_by(id_post=id).all()
 			comms = Comentario.query.filter_by(id_post=id).all()
+			reacs  = Reacoes.query.filter_by(id_post=id).all()
 			if post:
 				if session['user_id'] != post.id_user:
 					return redirect('/')
@@ -28,6 +30,10 @@ def del_pag(pag,id):
 				if comms:
 					for comm in comms:
 						current_app.db.session.delete(comm)
+						current_app.db.session.commit()
+				if reacs:
+					for reac in reacs:
+						current_app.db.session.delete(reac)
 						current_app.db.session.commit()
 				db.session.delete(post)
 				db.session.commit()

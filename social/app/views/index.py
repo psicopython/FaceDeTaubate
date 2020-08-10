@@ -23,6 +23,9 @@ def index():
 		reacao = Reacoes.query.filter_by(id_post=post['id']).all()
 		for re in reacao:
 			post['reac'].append(re.id_user)
+			if user:
+				if user.id == re.id_user:
+					post["Liked"] = True
 	posts.reverse()
 	imgs  = ImgPost.query.all()
 	dic = {}
