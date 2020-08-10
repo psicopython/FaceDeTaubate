@@ -20,3 +20,5 @@ def config_db(app):
 from . import user
 from . import post
 from . import ImgPost
+from . import reacoes
+from . import comentario

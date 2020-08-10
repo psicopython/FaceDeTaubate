@@ -26,7 +26,7 @@
 					</li>
 					{% if user %}
 						<li class="nav-item">
-							<a class="nav-link" href="{{url_for('webui.index')}}">Perfil</a>
+							<a class="nav-link" href="{{url_for('webui.index')}}">{{user.username}}</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="{{url_for('webui.logout')}}">Sair</a>
@@ -45,7 +45,7 @@
 		{% if user %}
 			{% if request.path != "/post/" %}
 				<div>
-					<a href="{{url_for('webui.post')}}">No que você está pensando?</a>
+					<a href="{{url_for('webui.post')}}">No que você está pensando, {{user.nome}} ?</a>
 				</div>
 			{% endif %}
 		{% endif %}

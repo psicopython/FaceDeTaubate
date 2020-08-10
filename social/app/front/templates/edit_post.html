@@ -1,16 +1,23 @@
 {% extends 'base.html'%}
 
 
+{% block titulo %}  Editar {% if pag == 'post' %} Publicação {% else %}{% endif %} Comentário {% endblock titulo %}
+
 {% block conteudo %}
-	<form action="/editar/{{post.id}}/" method="POST" accept-charset="utf-8">
+	<form action="/editar/{{pag}}/{{post.id}}/" method="POST" accept-charset="utf-8">
 		<div class="alert alert-warning">
 			<p>As imagens não são Alteráveis!</p>
 		</div>
 		<h4>Mensagem</h4>
-		<textarea class="form-control" name="body">{{post.body_post}}</textarea>
+		{% if pag == 'post' %}
+			<textarea class="form-control" name="body">{{post.body_post}}</textarea>
+		{% elif pag == 'comm' %}
+			<textarea class="form-control" name="body">{{post.body}}</textarea>
+		{%endif%}
 		<br>
  		<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
  			<div class="carousel-inner">
+ 				{%if imgs %}
 				{% for img in imgs[post.id] %}
 					{% if img %}
 						{% if imgs[post.id][1] %}
@@ -27,7 +34,9 @@
 							<img src="data:;base64,{{img}}">
 						{% endif %}
 					{% endif %}
+	
 				{% endfor %}
+				{% endif %}
 			</div>
 		</div>
 		<br><br>

@@ -5,9 +5,13 @@ from flask import (
 	flash,
 )
 
+
+
 from app.model.user    import User
-from app.model.ImgPost import ImgPost
 from app.model.post    import Post
+from app.model.reacoes import Reacoes
+from app.model.ImgPost import ImgPost
+from app.model.comentario import Comentario
 
 
 
@@ -45,4 +49,38 @@ def post():
 
 
 
+def comentario(id):
+	if not 'user_id' in session:
+		return redirect('/')
+	if request.method.upper() == 'POST':
+		
+		body = request.form['body']
+		if id and body:
+			comm = Comentario(body=body,id_post=id,id_user=session['user_id'])
+			current_app.db.session.add(comm)
+			current_app.db.session.commit()
+			return redirect('/')
+		else:
+			return redirect('/')
+	else:
+		return redirect('/')
 
+
+
+
+def reacao(id):
+	if not 'user_id' in session:
+		return redirect('/')
+	reacTmp = Reacoes.query.filter_by(id_user=session['user_id']).first()
+	if reacTmp:
+		return redirect('/')
+	if request.method.upper() == 'GET':
+		if id:
+			reac = Reacoes(id_post=id,id_user=session['user_id'])
+			current_app.db.session.add(reac)
+			current_app.db.session.commit()
+			return redirect(request.url)
+		else:
+			return redirect('/')
+	else:
+		return redirect('/')
