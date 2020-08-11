@@ -8,6 +8,7 @@ from .reacao      import like, unlike
 from .comentarios import comentario
 
 from .perfil import perfil
+from .amigo  import sol,ami
 
 from .del_pag    import del_pag
 from .edit_pag  import edit_pag
@@ -24,8 +25,15 @@ bp = Blueprint('webui',__name__.split()[0])
 bp.add_url_rule('/',methods=["GET"],view_func=index,endpoint='index')
 
 
+
 bp.add_url_rule('/perfil/<int:id>/',methods=["GET"],
 	view_func=perfil,endpoint='perfil')
+
+bp.add_url_rule('/amizade/solicitar/<int:re>/',methods=["GET"],view_func=sol,
+	endpoint='env_sol')
+
+bp.add_url_rule('/amizade/responder/<int:re>/',methods=["GET"],view_func=ami,
+	endpoint='resp_sol')
 
 
 
@@ -50,6 +58,7 @@ bp.add_url_rule('/post/like/<int:id>/', methods=["GET"],
 	
 bp.add_url_rule('/post/unlike/<int:id>/', methods=["GET"],
 	view_func=unlike,endpoint='unlike')
+
 
 
 bp.add_url_rule('/excluir/<string:pag>/<int:id>/',  methods=["GET","POST"],

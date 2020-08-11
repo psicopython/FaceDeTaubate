@@ -2,29 +2,56 @@ from flask import render_template, session
 
 import base64
 
+
 from app.model.user import User
-from app.model.user_img import UserImg
-from app.model.post import Post, posts_Schema
-from app.model.reacoes import Reacoes
-from app.model.comentario import Comentario
+from app.model.post import Post
+from app.model.amigo import Amigo
 from app.model.ImgPost import ImgPost
+from app.model.reacoes import Reacoes
+from app.model.user_img import UserImg
+from app.model.post import  posts_Schema
+from app.model.comentario import Comentario
+from app.model.amigo import Solicitacao as Sl
 
 
 
 def index():
 	
-	user, userImg = None, None
+	user, posts = None, None
 	
 	if 'user_id' in session:
 		user = User.query.filter_by(id=session['user_id']).first()
 		img = UserImg.query.filter_by(id_user=session['user_id']).first()
 		if img:
-			userImg = base64.b64encode(img.imagem).decode('ascii')
+			user.img = base64.b64encode(img.imagem).decode('ascii')
 		
+	if user:
+		sols = Sl.query.filter_by(id_re=user.id).all()
+		listSol = []
+		for sol in sols:
+			usu = User.query.filter_by(id=sol.id_en).first()
+			usuImg = UserImg.query.filter_by(id_user=usu.id).first()
+			listSol.append({'user':usu,'img':base64.b64encode(usuImg.imagem).decode('ascii')})
+		user.solsLen = len(listSol)
+		user.sols = listSol			
+		
+
 
 
 	posts = Post.query.all()
 	for post in posts:
+	
+		listCommI={}
+		imgPs = ImgPost.query.filter_by(id_post=post.id).all()
+		for imgP in imgPs:
+			if imgP.id_post in listCommI:
+				listCommI[imgP.id_post].append(base64.b64encode(imgP.imagem_dt).decode('ascii'))
+			else:
+				listCommI[imgP.id_post] = [base64.b64encode(imgP.imagem_dt).decode('ascii')]
+		
+		post.imgs = listCommI
+	
+	
 	
 	
 		post.user = User.query.filter_by(id=post.id_user).first()
@@ -39,10 +66,17 @@ def index():
 			user_comm = User.query.filter_by(id=comm.id_user).first()
 			img = UserImg.query.filter_by(id_user=user_comm.id).first()
 			user_comm.img = base64.b64encode(img.imagem).decode('ascii')
-			listComm.append({'data':comm.data,'body':comm.body,'id':comm.id,'id_post':comm.id_post,'user':user_comm})
+			
+			
+			listComm.append({'data':comm.data,'body':comm.body,'id':comm.id,
+				'id_post':comm.id_post,'user':user_comm})
 	
 		post.commLen = len(listComm)
 		post.comm = listComm
+	
+	
+	
+	
 	
 	
 		reacs = []
@@ -59,15 +93,6 @@ def index():
 	posts.reverse()
 
 
-
-	imgs  = ImgPost.query.all()
-	dic = {}
-	for img in imgs:
-		if img.id_post in dic:
-			dic[img.id_post].append(base64.b64encode(img.imagem_dt).decode('ascii'))
-		else:
-			dic[img.id_post] = [base64.b64encode(img.imagem_dt).decode('ascii')]
-
 	
-	return render_template('index.html',user=user,imgs=dic,posts=posts,userImg=userImg)
+	return render_template('index.html',user=user,posts=posts)
 	

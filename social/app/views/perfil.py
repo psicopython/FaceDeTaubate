@@ -17,10 +17,12 @@ from app.model.comentario import Comentario
 
 def perfil(id):
 	
+	user, userImg, user_local = None, None, None
+	
+	
 	if not id:
 		return redirect('/')
 	
-	user, userImg, user_local = None, None, None
 	
 	
 	if 'user_id' in session:
@@ -33,10 +35,12 @@ def perfil(id):
 		
 	
 	user_local = User.query.filter_by(id=id).first()
-	img = UserImg.query.filter_by(id_user=user_local.id).first()
-	if img:
-		user_local.img = base64.b64encode(img.imagem).decode('ascii')
-	
+	if user_local:
+		img = UserImg.query.filter_by(id_user=user_local.id).first()
+		if img:
+			user_local.img = base64.b64encode(img.imagem).decode('ascii')
+	else:
+		return redirect('/')
 	
 	posts = Post.query.filter_by(id_user=id).all()
 	for post in posts:
@@ -66,8 +70,9 @@ def perfil(id):
 		dicReac['id_users'] = []
 		for re in reacs:
 			dicReac['id_users'].append(re.id)
-			if re.id_user == user.id:
-				post.Liked = True
+			if user:
+				if re.id_user == user.id:
+					post.Liked = True
 		post.reacs = dicReac
 	posts.reverse()
 	return render_template('perfil.html',posts=posts,user=user,user_local=user_local)

@@ -5,7 +5,8 @@
 
 
 {% block conteudo %}
-
+<div class="container">
+<br>
 {% with mensagem = get_flashed_messages() %}
 	{% if mensagem %}
 		{% for men in mensagem %}
@@ -13,7 +14,7 @@
 		{% endfor %}
 	{% endif %}
 {% endwith %}
-
+<br>
 <form action="/login/" method="post">
 	<input class="form-control" type="email" placeholder="Email"      name="email"><br>
 	<input class="form-control senha" type="password" placeholder="Senha"   name="senha"><br>
@@ -22,4 +23,5 @@
 	<br><br>
 	<sub><a class="btn btn-outline-link" href="/cadastro/">Cadastrar-se</a></sub>
 </form>
+</div>
 {% endblock conteudo %}

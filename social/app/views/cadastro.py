@@ -14,24 +14,25 @@ def cadastro():
 	if request.method.upper() == 'POST':
 		#tel = request.form['tel']
 		#data = request.form['data']
+		#username = request.form['username']
 		nome = request.form['nome']
 		email = request.form['email']
 		email2 = request.form['email2']
 		senha = request.form['senha']
 		senha2 = request.form['senha2']
-		username = request.form['username']
 		imgs = request.files.getlist('img')
 		
 		
 		if not nome:
 			flash('O campo "Nome" não pode ficar vazio!')
 			return redirect(request.url)
+		
 		#if not data:
 		#	flash('O campo "Data De nascimento" não pode ficar vazio!')
 		#	return redirect(request.url)
-		if not username:
-			flash('O campo "Usuário" não pode ficar vazio!')
-			return redirect(request.url)
+		#if not username:
+		#	flash('O campo "Usuário" não pode ficar vazio!')
+		#	return redirect(request.url)
 		
 		if not email or not email2:
 			flash('O campo "Email" não pode ficar vazio!')
@@ -53,16 +54,16 @@ def cadastro():
 		
 		
 			
-		if User.query.filter_by(username=username).first():
-			flash(" Usuário não disponível!")
-			return redirect(request.url)
+		#if User.query.filter_by(username=username).first():
+		#	flash(" Usuário não disponível!")
+		#	return redirect(request.url)
 			
 		if User.query.filter_by(email=email).first():
 			flash(" Email não disponível!")
 			return redirect(request.url)
 			
 		
-		user = User(nome=nome,email=email,senha=senha,username=username)
+		user = User(nome=nome,email=email,senha=senha)
 		
 		current_app.db.session.add(user)
 		current_app.db.session.commit()

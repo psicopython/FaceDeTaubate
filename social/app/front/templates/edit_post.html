@@ -4,6 +4,7 @@
 {% block titulo %}  Editar {% if pag == 'post' %} Publicação {% else %}{% endif %} Comentário {% endblock titulo %}
 
 {% block conteudo %}
+<div class="container">
 	<form action="/editar/{{pag}}/{{post.id}}/" method="POST" accept-charset="utf-8">
 		<div class="alert alert-warning">
 			<p>As imagens não são Alteráveis!</p>
@@ -42,6 +43,7 @@
 		<br><br>
 		<button class="form-control btn btn-outline-success">Salvar</button>
 	</form>
+</div>
 {% endblock conteudo %}
 
 

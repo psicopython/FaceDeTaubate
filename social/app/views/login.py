@@ -31,7 +31,7 @@ def login():
 				flash(' Usuário ou senha Inválidos!')
 				return redirect(request.url)
 		else:
-			flash(' Usuário ou senha Inválidos!')
+			flash(' E-mail não cadastrado ')
 			return redirect(request.url)
 	else:
 		return render_template('login.html')

@@ -28,6 +28,7 @@ html, body
 	width: 30%;
 }
 .publicacoes {
+	background: white;
 	position: relative;
 	border: 1px solid gray;
 	border-radius: 20px;
@@ -43,7 +44,27 @@ img{
 	width: 100%;
 }
 
+.cabecalho{
+	position: relative;
+	
+}
+.cabecalho figure{
+	position: relative;
+}
+.cabecalho figcaption{
+	position: absolute;
+	width: 70%;
+	border-radius: 0px 10px 10px 0px;
+	bottom: 10px;
+	color: white;
+	font-size: 20vw;
+	background: rgba(0,0,0,.4);
+}
 
+
+.cp {
+	color: black ;
+}
 .editar{
 	width: 100%;
 }

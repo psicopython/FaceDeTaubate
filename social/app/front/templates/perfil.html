@@ -5,23 +5,15 @@ Perfil - {{user_local.nome}}
 {% endblock titulo %}
 
 {% block conteudo %}
-	{% if user.id == user_local.id %}
-	<span onclick="$('#settigns').toggle()">. . .</span>
-	<div id="settigns" style="display:none;">
-		<br>
-		<a class="btn btn-outline-success" href="/editar/perfil/{{user.id}}/">EDITAR PERFIL</a>
-		<a class="btn btn-outline-danger" href="/excluir/perfil/{{user.id}}/">EXCLUIR PERFIL</a>
-		<br>
-	</div>
-		<br>
-	{% endif %}
+
+<div class="conteiner">
 	{% if posts %}
 		
 		<div>
 		{% for post in posts %}
 			<div class="publicacoes">
 				{% if user.id == user_local.id %}
-					<span onclick="$('#settigns-{{post.id}}').toggle()">. . .</span>
+					<span onclick="$('#settigns-{{post.id}}').toggle()">|conf|</span>
 					<div id="settigns-{{post.id}}" style="display:none;">
 						<a class="btn btn-outline-warning" href="/editar/post/{{post.id}}/">EDITAR</a>
 						<a class="btn btn-outline-danger" href="/excluir/post/{{post.id}}/">EXCLUIR</a>
@@ -31,7 +23,8 @@ Perfil - {{user_local.nome}}
 					{% if user_local.img%}
 						<img class="miniatura" src="data:;base64,{{user_local.img}}">
 					{% endif %}
-					{{ user_local.nome }}
+					{{ user_local.nome.split()[0] }}
+					<sup>{{ user_local.email }}</sup>
 				</h3>
 					{% if post.user.id == user.id %}
 						<sup>∆</sup>
@@ -49,11 +42,11 @@ Perfil - {{user_local.nome}}
 								{% if post.imgs[1] %}
 									{% if img == post.imgs[0]%}
 					 					<div class="carousel-item active">
-										1	<img class="d-block w-100" src="data:;base64,{{img.imagem}}">
+											<img class="d-block w-100" src="data:;base64,{{img.imagem}}">
 										</div>
 									{% else %}
 					 					<div class="carousel-item">
-										2	<img class="d-block w-100"  src="data:;base64,{{img.imagem}}">
+											<img class="d-block w-100"  src="data:;base64,{{img.imagem}}">
 										</div>
 									{% endif %}
 								{% else %}
@@ -71,5 +64,6 @@ Perfil - {{user_local.nome}}
 		{% endfor %}
 		</div>
 	{% endif %}
+</div>
 {% endblock conteudo %}
 

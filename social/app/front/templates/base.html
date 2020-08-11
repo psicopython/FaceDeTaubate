@@ -11,7 +11,16 @@
 	</head>
 
 	<body>
-
+	{% if user_local%}
+		 <div class="cabecalho">
+			<figure>
+				<img src="data:;base64,{{user_local.img}}">
+				<figcaption>
+					<h2>{{user_local.nome.split()[0]}}</h2>
+				</figcaption>
+			</figure>
+		</div>
+	{% endif %}
 		<nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<a class="navbar-brand" href="/">DeepWebSocial</a>
 		
@@ -26,7 +35,7 @@
 					</li>
 					{% if user %}
 						<li class="nav-item">
-							<a class="nav-link" href="/perfil/{{user.id}}/">{{user.username}}</a>
+							<a class="nav-link" href="/perfil/{{user.id}}/">{{user.nome}}</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="{{url_for('webui.logout')}}">Sair</a>
@@ -43,36 +52,39 @@
 			</div>
 		</nav>
 		{% if user %}
-			<br>
+		<br>
+		<div class="cp">
 			<div class="add_post">
 				<a onclick="$('.add_post').toggle()">No que você está pensando, {{user.nome.split()[0]}} ?</a>
 			</div>
 			<div class="container">
-			<div class="add_post publicacoes" style="display:none;">
-				
-				<a onclick="$('.add_post').toggle()">Cancelar</a>
-				{% with mensagem = get_flashed_messages() %}
-					{% if mensagem %}
-						{% for msg in mensagem%}
-						<p class="alert alert-danger">{{msg}}</p>
-						{% endfor %}
-					{% endif %}
-				{% endwith %}
-	
-				<form method="post" class="form-data" action="{{url_for('webui.post')}}" enctype="multipart/form-data">
-					<textarea class="form-control" placeholder="No que esta pensando?" name="body"></textarea><br>
-					<input id="input-file" class="form-control-file" type="file" accept="image/*" name="img" multiple ><br>
-					<div id="preview">
-						
-					</div>
-					<button class="form-control btn btn-outline-primary" type="submit">Enviar</button>
-				</form>
-	
+				<div class="add_post publicacoes" style="display:none;">
+					
+					<a class="" onclick="$('.add_post').toggle()">X</a>
+					{% with mensagem = get_flashed_messages() %}
+						{% if mensagem %}
+							{% for msg in mensagem%}
+							<p class="alert alert-danger">{{msg}}</p>
+							{% endfor %}
+						{% endif %}
+					{% endwith %}
+		
+					<form method="post" class="form-data" action="{{url_for('webui.post')}}" enctype="multipart/form-data">
+						<textarea class="form-control" placeholder="No que esta pensando?" name="body"></textarea><br>
+						<input id="input-file" class="form-control-file" type="file" accept="image/*" name="img" multiple ><br>
+						<div id="preview">
+							
+						</div>
+						<button class="form-control btn btn-outline-primary" type="submit">Enviar</button>
+					</form>
+		
+				</div>
 			</div>
-			</div>
+		</div>
 		{% endif %}
 		
-		<div id="section" class="conteiner">{% block conteudo %}{% endblock conteudo %}</div>
+		{% block conteudo %}{% endblock conteudo %}
+		
 		<footer>Copyright &copy;<br><sub>Projeto Iniciado dia 09/08/2020 às 00:00</sub></footer>
 		
 		<script src="{{url_for('static',filename='js/jquery.js')}}"></script>
