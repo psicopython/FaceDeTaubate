@@ -19,4 +19,4 @@ class UserImg(db.Model):
 		return datetime.now()
 	
 	def __repr__(self):
-		return f"Perfil:{self.id} user:{delf.id_user}"
+		return f"Perfil:{self.id} user:{self.id_user}"

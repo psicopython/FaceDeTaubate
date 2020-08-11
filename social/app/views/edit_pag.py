@@ -12,7 +12,7 @@ from app.model.comentario import Comentario
 
 
 
-def edit_post(pag,id):
+def edit_pag(pag,id):
 	if not 'user_id' in session:
 		return redirect('/')
 	if pag.upper() == 'POST':

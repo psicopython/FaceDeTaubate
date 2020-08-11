@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Perfil - {{user_local.nome}}
+{% endblock titulo %}
+
+{% block conteudo %}
+	{% if user.id == user_local.id %}
+	<span onclick="$('#settigns').toggle()">. . .</span>
+	<div id="settigns" style="display:none;">
+		<br>
+		<a class="btn btn-outline-success" href="/editar/perfil/{{user.id}}/">EDITAR PERFIL</a>
+		<a class="btn btn-outline-danger" href="/excluir/perfil/{{user.id}}/">EXCLUIR PERFIL</a>
+		<br>
+	</div>
+		<br>
+	{% endif %}
+	{% if posts %}
+		
+		<div>
+		{% for post in posts %}
+			<div class="publicacoes">
+				{% if user.id == user_local.id %}
+					<span onclick="$('#settigns-{{post.id}}').toggle()">. . .</span>
+					<div id="settigns-{{post.id}}" style="display:none;">
+						<a class="btn btn-outline-warning" href="/editar/post/{{post.id}}/">EDITAR</a>
+						<a class="btn btn-outline-danger" href="/excluir/post/{{post.id}}/">EXCLUIR</a>
+					</div>
+				{% endif%}
+				<h3>
+					{% if user_local.img%}
+						<img class="miniatura" src="data:;base64,{{user_local.img}}">
+					{% endif %}
+					{{ user_local.nome }}
+				</h3>
+					{% if post.user.id == user.id %}
+						<sup>∆</sup>
+					{% endif%}
+				<sup>
+					{{post.data_cr.day }}/{{post.data_cr.month }}/{{post.data_cr.year }} às {{post.data_cr.hour }}:{{post.data_cr.minute }}
+				</sup>
+				<pre>{{post.body_post}}</pre>
+				{% if post.imgs %}
+				<div class="carousel slide" data-ride="carousel">
+		 			<div class="carousel-inner">
+						
+						{% for img in post.imgs %}
+							{% if img.imagem %}
+								{% if post.imgs[1] %}
+									{% if img == post.imgs[0]%}
+					 					<div class="carousel-item active">
+										1	<img class="d-block w-100" src="data:;base64,{{img.imagem}}">
+										</div>
+									{% else %}
+					 					<div class="carousel-item">
+										2	<img class="d-block w-100"  src="data:;base64,{{img.imagem}}">
+										</div>
+									{% endif %}
+								{% else %}
+									<img src="data:;base64,{{img.imagem}}">
+								{% endif %}
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		<br>
+		<br>
+		<br>
+		{% endfor %}
+		</div>
+	{% endif %}
+{% endblock conteudo %}
+

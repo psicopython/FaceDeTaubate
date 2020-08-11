@@ -58,6 +58,7 @@ def del_pag(pag,id):
 				db.session.delete(comm)
 				db.session.commit()
 				return redirect('/')
+			return redirect('/? ué')
 				
 		else:
 			return redirect('/')

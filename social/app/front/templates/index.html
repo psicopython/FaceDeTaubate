@@ -8,10 +8,9 @@
 {% block conteudo %}
 	{% if imgs %}
 		{% for post in posts %}
-		<hr>
 		<div class="publicacoes">
 			{% if user.id == post.user.id %}
-			<span class="" onclick="$('.editar-{{post.id}}').toggle()">...</span><br>
+			<span class="" onclick="$('.editar-{{post.id}}').toggle()">. . .</span><br>
 			<div  style="display:none;" class="editar-{{post.id}}">
 				<a class="btn btn-outline-warning" href="/editar/post/{{post.id}}/">Editar</a>
 				<a class="btn btn-outline-danger" href="/excluir/post/{{post.id}}/">excluir</a>
@@ -20,19 +19,23 @@
 
 			{% endif %}
 			<h3>
-			{% if post.perfil %}
-			<img class="miniatura" src="data:;base64,{{post.perfil}}">
-			{% endif %}
-			{{post.user.nome}}</h3>
-			<sup>{{post.data_cr[8:10]}}/{{post.data_cr[5:7]}}/{{post.data_cr[:4]}} às {{post.data_cr[11:16]}}</sup>
-			<br><sup>@{{post.user.username}}</sup><br>
+				<a href="/perfil/{{post.user.id}}">
+				{% if post.user.img %}
+					<img class="miniatura" src="data:;base64,{{post.user.img}}">
+				{% endif %}
+				{{post.user.nome}}
+				</a>
+			</h3>
+			<sup>
+				{{post.data_cr.day }}/{{post.data_cr.month }}/{{post.data_cr.year }} às {{post.data_cr.hour }}:{{post.data_cr.minute }}
+			</sup>
 			<br>
-			<pre>{{post.body_post}}</pre>
-			<hr>
-			<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+			<pre><i>{{post.body_post}}</i></pre>
+			<div class="carousel slide" data-ride="carousel">
 	 			<div class="carousel-inner">
 					{% for img in imgs[post.id] %}
 						{% if img %}
+							<hr>
 							{% if imgs[post.id][1] %}
 								{% if img == imgs[post.id][0]%}
 				 					<div class="carousel-item active">
@@ -48,42 +51,51 @@
 							{% endif %}
 						{% endif %}
 					{% endfor %}
+						<hr>
 				</div>
 			</div>
-			<span>likes {{post.reac|length}}</span> | <span onclick="$('#comentario-{{post.id}}').toggle()">Comentarios {{post.comm|length}}</span>
-			<br>
 			{%if user %}
+			<div>
 				{% if post.Liked %}
-					<a class="btn btn-outline-danger" href="/post/unlike/{{post.id}}/">Unlike</a>
+					<a class="btn btn-primary" href="/post/unlike/{{post.id}}/">{% if post.reactLen < 2 %} {{post.reactLen}} like{% else %} {{post.reactLen}} likes {% endif %}</a>
 				{% else %}
-					<a class="btn btn-outline-primary" href="/post/like/{{post.id}}/">Like</a>
+					<a class="btn btn-outline-primary" href="/post/like/{{post.id}}/">{% if post.reactLen < 2 %} {{post.reactLen}} like{% else %} {{post.reactLen}} likes {% endif %}</a>
 				{% endif %}
+				<span  onclick="$('#comentario-{{post.id}}').toggle()">{% if post.commLen == 0 %} Nenhum {% else %}{{post.commLen}}{% endif%}{% if post.commLen  < 2 %} Comentário {% else %} Comentários {% endif %}</span>
+			</div>
 			{% endif %}
 			{% if post.comm %}
 				<div id="comentario-{{post.id}}" class="publicacoes" style="display:none;">
-					{% for comm in post.comm%}
+			
+			
+					{% for comm in post.comm %}
 						<div class="">
-							<b>{{post.user.username}}
-							{% if comm.id_user == post.id_user %}
+							<b>{%if comm.user.img %}<img class="miniatura" src="data:;base64,{{ comm.user.img }}">{%endif%}
+								{{ comm.user.nome}}
+							{% if comm.user.id == post.id_user %}
 								<sup>autor</sup>
 							{% endif %}
-							{% if user.id == comm.id_user %}
-								<span onclick="$('.editar-{{comm.id}}').toggle()">...</span><br>
-								<div  style="display:none;" class="editar-{{comm.id}}">
-									<a class="btn btn-outline-warning" href="/editar/comm/{{comm.id}}/">Editar</a>
-									<a class="btn btn-outline-danger" href="/excluir/comm/{{comm.id}}/">excluir</a>
-								</div>
+							{% if user %}
+							
+								{% if user.id == comm.user.id %}
+									<span onclick="$('.editar-{{comm.id}}').toggle()">...</span><br>
+									<div  style="display:none;" class="editar-{{comm.id}}">
+										<a class="btn btn-outline-warning" href="/editar/comm/{{comm.id}}/">Editar</a>
+										<a class="btn btn-outline-danger" href="/excluir/comm/{{comm.id}}/">excluir</a>
+									</div>
+								{% endif %}
 							{% endif %}
 							</b>
 							<pre><i>{{comm.body}}</i></pre>
 						</div>
+						<hr>
 					{% endfor %}
 				</div>
 			{% endif%}
 			<br>
 			{% if user %}
 				<form action="/post/comentario/{{post.id}}/" method="post">
-					<textarea type="text" name="body" class="form-control" placeholder="comentario"></textarea><br>
+					<textarea  type="text" name="body" class="form-control" placeholder="comentario"></textarea><br>
 					<button type="submit" class="form-control btn btn-primary">Comentar</button>
 				</form>
 			{% endif %}

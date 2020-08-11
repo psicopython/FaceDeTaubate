@@ -9,7 +9,6 @@ from flask import (
 
 from app.model.user    import User
 from app.model.post    import Post
-from app.model.reacoes import Reacoes
 from app.model.ImgPost import ImgPost
 from app.model.comentario import Comentario
 
@@ -46,60 +45,3 @@ def post():
 	else:
 		return render_template('post.html',user=user)
 
-
-
-
-def comentario(id):
-	if not 'user_id' in session:
-		return redirect('/')
-	if request.method.upper() == 'POST':
-		
-		body = request.form['body']
-		if id and body:
-			comm = Comentario(body=body,id_post=id,id_user=session['user_id'])
-			current_app.db.session.add(comm)
-			current_app.db.session.commit()
-			return redirect('/')
-		else:
-			return redirect('/')
-	else:
-		return redirect('/')
-
-
-
-
-def reacao(id):
-	if not 'user_id' in session:
-		return redirect('/')
-	reacTmp = Reacoes.query.filter_by(id_user=session['user_id'],id_post=id).first()
-	if reacTmp:
-		return redirect('/?jalike')
-	if request.method.upper() == 'GET':
-		if id:
-			reac = Reacoes(id_post=id,id_user=session['user_id'])
-			current_app.db.session.add(reac)
-			current_app.db.session.commit()
-			return redirect('/')
-		else:
-			return redirect('/')
-	else:
-		return redirect('/')
-
-
-
-
-def unlike(id):
-	if not 'user_id' in session:
-		return redirect('/')
-	reac = Reacoes.query.filter_by(id_user=session['user_id'],id_post=id).first()
-	if not reac:
-		return redirect('/?jalike')
-	if request.method.upper() == 'GET':
-		if id:
-			current_app.db.session.delete(reac)
-			current_app.db.session.commit()
-			return redirect('/')
-		else:
-			return redirect('/')
-	else:
-		return redirect('/')

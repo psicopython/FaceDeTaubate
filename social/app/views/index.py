@@ -13,30 +13,49 @@ from app.model.ImgPost import ImgPost
 
 def index():
 	
-	user = None
-	userImg = None
+	user, userImg = None, None
+	
 	if 'user_id' in session:
 		user = User.query.filter_by(id=session['user_id']).first()
-		img = UserImg.query.filter_by(id_user=user.id).first()
+		img = UserImg.query.filter_by(id_user=session['user_id']).first()
 		if img:
 			userImg = base64.b64encode(img.imagem).decode('ascii')
 		
 
 
-	posts = posts_Schema.dump(Post.query.all())
+	posts = Post.query.all()
 	for post in posts:
-		post["user"] = User.query.filter_by(id=post["id_user"]).first()
-		img = UserImg.query.filter_by(id_user=post['user'].id).first()
+	
+	
+		post.user = User.query.filter_by(id=post.id_user).first()
+		img = UserImg.query.filter_by(id_user=post.user.id).first()
 		if img:
-			post['perfil'] = base64.b64encode(img.imagem).decode('ascii')
-		post["comm"] = Comentario.query.filter_by(id_post=post["id"]).all()
-		post['reac'] = []
-		reacao = Reacoes.query.filter_by(id_post=post['id']).all()
+			post.user.img = base64.b64encode(img.imagem).decode('ascii')
+		
+		
+		listComm=[]
+		comms = Comentario.query.filter_by(id_post=post.id).all()
+		for comm in comms:
+			user_comm = User.query.filter_by(id=comm.id_user).first()
+			img = UserImg.query.filter_by(id_user=user_comm.id).first()
+			user_comm.img = base64.b64encode(img.imagem).decode('ascii')
+			listComm.append({'data':comm.data,'body':comm.body,'id':comm.id,'id_post':comm.id_post,'user':user_comm})
+	
+		post.commLen = len(listComm)
+		post.comm = listComm
+	
+	
+		reacs = []
+		reacao = Reacoes.query.filter_by(id_post=post.id).all()
 		for re in reacao:
-			post['reac'].append(re.id_user)
+			reacs.append({'data':re.data,'user':User.query.filter_by(id=re.id_user).first(),'post':re.id_post})
 			if user:
 				if user.id == re.id_user:
-					post["Liked"] = True
+					post.Liked = True
+		
+		post.reactLen = len(reacs)
+		post.reacs = reacs
+		
 	posts.reverse()
 
 
