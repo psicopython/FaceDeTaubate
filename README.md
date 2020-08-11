@@ -22,10 +22,9 @@ ou versão do python diferente)
 
 Preparando o Ambiente:
 ```sh
-
+cd FaceDeTaubate/social 
 python -m venv .venv
 . venv/bin/activate
-cd FaceDeTaubate/social/
 pip install -r requirements.txt
 
 ```
