@@ -14,7 +14,10 @@
 			<ul>
 				
 					{% for sol in user.sols %}
-						<li>{{sol.user.nome}} <a class="btn btn-outline-primary" href="/amizade/responder/{{sol.user.id}}/"> Confirmar</a></li>
+						<li>{{sol.user.nome}}
+							<a class="btn btn-outline-primary" href="/amizade/responder/{{sol.user.id}}/">Aceitar</a> 
+							<a class="btn btn-outline-danger" href="/amizade/cancelar_solicitacao/{{sol.user.id}}/">Recusar</a>
+						</li>
 					{% endfor %}
 			</ul>
 		</div>
@@ -31,10 +34,24 @@
 						<a class="btn btn-outline-danger" href="/excluir/post/{{post.id}}/">excluir</a>
 					</div>
 				{% endif %}
-				{% if post.user.id != user.id %}
-					<a class="btn btn-primary" href="/amizade/solicitar/{{post.user.id}}/">Mandar Solicitações</a>
-					<br>
-					<br>
+				{% if post.id_user != user.id %}
+					{% if post.amigo %}
+						<sub>AMIGO✓</sub>
+						<a class="btn btn-outline-danger" href="/amizade/desfazer/{{post.user.id}}/">Desfazer Amizade</a>
+					
+					{% elif user.sols %}
+						{% for sol in user.sols %}
+							{% if sol.user.id == post.id_user %}
+								<a class="btn btn-outline-success" href="/amizade/responder/{{post.user.id}}/">Aceitar Solicitação</a>
+							{% endif %}
+						{% endfor %}
+					{% elif post.jasol %}
+						<a class="btn btn-outline-warning" href="/amizade/cancelar_solicitacao/{{post.user.id}}/">Cancelar Solicitação</a>
+					{% else %}
+						<a class="btn btn-primary" href="/amizade/solicitar/{{post.user.id}}/">Mandar Solicitação</a>
+						<br>
+						<br>
+					{% endif %}
 				{% endif %}
 			{% endif %}
 			<h3>

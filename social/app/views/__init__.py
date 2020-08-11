@@ -8,7 +8,7 @@ from .reacao      import like, unlike
 from .comentarios import comentario
 
 from .perfil import perfil
-from .amigo  import sol,ami
+from .amigo  import sol,ami,des_ami,can_sol
 
 from .del_pag    import del_pag
 from .edit_pag  import edit_pag
@@ -24,16 +24,24 @@ bp = Blueprint('webui',__name__.split()[0])
 
 bp.add_url_rule('/',methods=["GET"],view_func=index,endpoint='index')
 
-
-
 bp.add_url_rule('/perfil/<int:id>/',methods=["GET"],
 	view_func=perfil,endpoint='perfil')
 
-bp.add_url_rule('/amizade/solicitar/<int:re>/',methods=["GET"],view_func=sol,
-	endpoint='env_sol')
 
-bp.add_url_rule('/amizade/responder/<int:re>/',methods=["GET"],view_func=ami,
-	endpoint='resp_sol')
+
+
+bp.add_url_rule('/amizade/solicitar/<int:re>/',
+	methods=["GET"],view_func=sol,endpoint='env_sol')
+
+bp.add_url_rule('/amizade/cancelar_solicitacao/<int:re>/',
+	methods=["GET"],view_func=can_sol,endpoint='can_sol')
+
+bp.add_url_rule('/amizade/responder/<int:re>/',methods=["GET"],
+	view_func=ami,endpoint='resp_sol')
+
+bp.add_url_rule('/amizade/desfazer/<int:re>/',methods=["GET"],
+	view_func=des_ami,endpoint='des_ami')
+
 
 
 

@@ -26,20 +26,43 @@ def index():
 			user.img = base64.b64encode(img.imagem).decode('ascii')
 		
 	if user:
-		sols = Sl.query.filter_by(id_re=user.id).all()
 		listSol = []
+		sols = Sl.query.filter_by(id_re=user.id).all()
 		for sol in sols:
 			usu = User.query.filter_by(id=sol.id_en).first()
 			usuImg = UserImg.query.filter_by(id_user=usu.id).first()
 			listSol.append({'user':usu,'img':base64.b64encode(usuImg.imagem).decode('ascii')})
 		user.solsLen = len(listSol)
-		user.sols = listSol			
+		user.sols = listSol	
+	
+	
 		
 
 
 
 	posts = Post.query.all()
 	for post in posts:
+		
+		if user:
+			listAmigo = {}
+			ami = Amigo.query.filter_by(id_user=user.id,id_amigo=post.id_user).first()
+			if ami:
+				listAmigo['id_ami'] = ami.id_amigo
+				listAmigo['data'] = ami.data
+			
+				post.amigo	= listAmigo
+			
+			
+			
+		if user:
+			listSolAmigo = {}
+			ami = Sl.query.filter_by(id_en=user.id,id_re=post.id_user).first()
+			if ami:
+				listSolAmigo['id_ami'] = ami.id_re
+			
+				post.jasol	= listSolAmigo
+	
+	
 	
 		listCommI={}
 		imgPs = ImgPost.query.filter_by(id_post=post.id).all()
