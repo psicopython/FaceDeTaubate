@@ -46,19 +46,14 @@ def del_pag(pag,id):
 		
 		elif pag == 'comm':
 			comm = Comentario.query.filter_by(id=id).first()
-			#imgs = ImgPost.query.filter_by(id_post=id).all()
 			if comm:
 				post = Post.query.filter_by(id=comm.id_post).first()
 				if session['user_id'] != comm.id_user:
 					return redirect('/')
-				#if imgs:
-				#	for img in imgs:
-				#		db.session.delete(img)
-				#		db.session.commit()
 				db.session.delete(comm)
 				db.session.commit()
 				return redirect('/')
-			return redirect('/? ué')
+			return redirect('/')
 				
 		else:
 			return redirect('/')

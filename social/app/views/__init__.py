@@ -8,6 +8,7 @@ from .reacao      import like, unlike
 from .comentarios import comentario
 
 from .perfil import perfil
+from .edit_perfil import editar_perfil
 from .amigo  import sol,ami,des_ami,can_sol
 
 from .del_pag    import del_pag
@@ -26,6 +27,9 @@ bp.add_url_rule('/',methods=["GET"],view_func=index,endpoint='index')
 
 bp.add_url_rule('/perfil/<int:id>/',methods=["GET"],
 	view_func=perfil,endpoint='perfil')
+
+bp.add_url_rule('/perfil/<int:id>/editar/',methods=["GET","POST"],
+	view_func=editar_perfil,endpoint='editar_perfil')
 
 
 
@@ -55,7 +59,7 @@ bp.add_url_rule('/logout/',methods=["GET"],view_func=logout,endpoint='logout')
 bp.add_url_rule('/post/', methods=["GET","POST"],
 	view_func=post,endpoint='post')
 	
-bp.add_url_rule('/post/comentario/<int:id>/', methods=["GET","POST"],
+bp.add_url_rule('/post/comentario/<string:pag>/<int:id>/', methods=["GET","POST"],
 	view_func=comentario,endpoint='comentario')
 
 

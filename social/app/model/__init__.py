@@ -19,8 +19,11 @@ def config_db(app):
 
 from . import user
 from . import user_img
+
+from . import amigo
+
 from . import post
 from . import ImgPost
+
 from . import reacoes
-from . import amigo
 from . import comentario

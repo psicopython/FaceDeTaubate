@@ -13,7 +13,6 @@ class Comentario(db.Model):
 	body = db.Column(db.Text,nullable=False)
 	id_post = db.Column(db.Integer,nullable=False)
 	id_user = db.Column(db.Integer,nullable=False)
-	id_img  = db.Column(db.Integer)
 	
 	def _get_data(self):
 		return datetime.today()
@@ -22,7 +21,6 @@ class Comentario(db.Model):
 		
 		self.data = self._get_data()
 		self.body = body
-		self.id_img = '1'
 		self.id_post = id_post
 		self.id_user = id_user
 	

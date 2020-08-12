@@ -10,6 +10,7 @@ from app.model.amigo import Solicitacao as Sl
 
 
 def sol(re):
+	url = request.path
 	user1,user2 = None,None
 	if not 'user_id' in session:
 		return redirect('/')
@@ -25,16 +26,17 @@ def sol(re):
 	conf = Sl.query.filter_by(id_en=user1.id,id_re=user2.id).first()
 	conf2 = Sl.query.filter_by(id_en=user2.id,id_re=user1.id).first()
 	if conf:
-		return redirect('/?conf1')
+		return redirect(f'/perfil/{re}/')
+		
 	if conf2:
-		return redirect('/?conf2')
+		return redirect(f'/perfil/{re}/')
 	if user1 and user2:
 		soli = Sl(id_en=user1.id,id_re=user2.id)
 		current_app.db.session.add(soli)
 		current_app.db.session.commit()
-		return redirect('/')
+		return redirect(f'/perfil/{re}/')
 	else:
-		return redirect('/')
+		return redirect(f'/perfil/{re}/')
 
 
 def ami(re):
@@ -71,28 +73,29 @@ def ami(re):
 				current_app.db.session.delete(sol)
 				current_app.db.session.commit()
 		
-		return redirect('/?ok')
+		return redirect('/')
 	else:
 		return redirect('/')
 
 
 def des_ami(re):
 	if not 'user_id' in session:
-		return redirect('/?1'+str(re))
+		return redirect('/')
 		
 	if not re:
-		return redirect('/?2'+str(re))
-		#return redirect('/')
+		return redirect('/')
 		
 	if session['user_id'] == re:
-		return redirect('/?3'+str(re))
-		#return redirect('/')
+		return redirect('/')
 	
 	use1 = User.query.filter_by(id=session['user_id']).first()
 	use2 = User.query.filter_by(id=re).first()
 	
-	ami1 = Amigo.query.filter_by(id_user=use1.id,id_amigo=use2.id).first()
-	ami2 = Amigo.query.filter_by(id_user=use2.id,id_amigo=use1.id).first()
+	ami1 = Amigo.query.filter_by(
+		id_user=use1.id,id_amigo=use2.id).first()
+		
+	ami2 = Amigo.query.filter_by(
+		id_user=use2.id,id_amigo=use1.id).first()
 	
 	if ami1:
 		current_app.db.session.delete(ami1)
@@ -108,15 +111,13 @@ def des_ami(re):
 
 def can_sol(re):
 	if not 'user_id' in session:
-		return redirect('/?1'+str(re))
+		return redirect('/')
 		
 	if not re:
-		return redirect('/?2'+str(re))
-		#return redirect('/')
+		return redirect('/')
 		
 	if session['user_id'] == re:
-		return redirect('/?3'+str(re))
-		#return redirect('/')
+		return redirect('/')
 	
 	use1 = User.query.filter_by(id=session['user_id']).first()
 	use2 = User.query.filter_by(id=re).first()

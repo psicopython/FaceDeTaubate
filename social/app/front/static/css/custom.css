@@ -30,12 +30,10 @@ html, body
 .publicacoes {
 	background: white;
 	position: relative;
-	border: 1px solid gray;
-	border-radius: 20px;
-	padding: 20px 10px;
+	padding: 5px 10px;
 }
 .publicacoes h3,p,sub{
-	margin: 0px 10%;
+	margin: 0px 5%;
 	width: 80%;
 }
 
@@ -43,13 +41,27 @@ html, body
 img{
 	width: 100%;
 }
-
+#img_preview{
+	display: flex;
+	border-radius: 50%;
+	width: 80%;
+	max-width: 250px;
+	max-height: 250px;
+	
+	
+}
+.flex {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
 .cabecalho{
 	position: relative;
 	
 }
 .cabecalho figure{
 	position: relative;
+	margin-bottom: 0px;
 }
 .cabecalho figcaption{
 	position: absolute;
@@ -64,6 +76,9 @@ img{
 
 .cp {
 	color: black ;
+	width: 100%;
+	border: 1px solid #33dfba;
+	border-radius: 10px;
 }
 .editar{
 	width: 100%;

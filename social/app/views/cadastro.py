@@ -1,8 +1,11 @@
 from flask import (
-	request, redirect, 
+	request, redirect, url_for,
 	render_template, current_app,
-	flash, session
+	flash, session,
 )
+
+import os
+
 from app.model.user import User
 from app.model.user_img import UserImg
 
@@ -16,6 +19,7 @@ def cadastro():
 		#data = request.form['data']
 		#username = request.form['username']
 		nome = request.form['nome']
+		sexo = request.form['sexo']
 		email = request.form['email']
 		email2 = request.form['email2']
 		senha = request.form['senha']
@@ -26,13 +30,10 @@ def cadastro():
 		if not nome:
 			flash('O campo "Nome" não pode ficar vazio!')
 			return redirect(request.url)
-		
-		#if not data:
-		#	flash('O campo "Data De nascimento" não pode ficar vazio!')
-		#	return redirect(request.url)
-		#if not username:
-		#	flash('O campo "Usuário" não pode ficar vazio!')
-		#	return redirect(request.url)
+	
+		if not sexo:
+			flash('O campo "Sexo" não pode ficar vazio!')
+			return redirect(request.url)
 		
 		if not email or not email2:
 			flash('O campo "Email" não pode ficar vazio!')
@@ -54,27 +55,37 @@ def cadastro():
 		
 		
 			
-		#if User.query.filter_by(username=username).first():
-		#	flash(" Usuário não disponível!")
-		#	return redirect(request.url)
-			
 		if User.query.filter_by(email=email).first():
 			flash(" Email não disponível!")
 			return redirect(request.url)
 			
 		
-		user = User(nome=nome,email=email,senha=senha)
+		user = User(nome=nome,email=email,senha=senha,sexo=sexo)
 		
 		current_app.db.session.add(user)
 		current_app.db.session.commit()
 		session['user_id'] = user.id
 		
-		if imgs:
-			user_img=UserImg(imagem=imgs[0],id_user=user.id)
+		if imgs[0]:
+			user_img = UserImg(imagem=imgs[0].read(),id_user=user.id)
 			current_app.db.session.add(user_img)
 			current_app.db.session.commit()
-			print("\n\n salvou\n\n")
+		
+		else:
+			img = None
+			if sexo == 'm':
+				with open('app/front/static/img/perfil/user_img_m.png','rb') as im:
+					img = im.read()
+			elif sexo == 'f':
+				with open('app/front/static/img/perfil/user_img_f.png','rb') as im:
+					img = im.read()
+			else:
+				with open('app/front/static/img/perfil/user_img.png','rb') as im:
+					img = im.read()
+			user_img=UserImg(imagem=img,id_user=user.id)
+			current_app.db.session.add(user_img)
+			current_app.db.session.commit()
 			
 		return redirect('/')
 	else:
-		return render_template('cadastro.html'),200
+		return render_template('cadastro.html')

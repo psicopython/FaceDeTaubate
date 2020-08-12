@@ -4,15 +4,16 @@ import base64
 
 
 from app.model.user import User
-from app.model.post import Post
-from app.model.amigo import Amigo
-from app.model.ImgPost import ImgPost
-from app.model.reacoes import Reacoes
 from app.model.user_img import UserImg
-from app.model.post import  posts_Schema
-from app.model.comentario import Comentario
-from app.model.amigo import Solicitacao as Sl
 
+from app.model.post import Post
+from app.model.ImgPost import ImgPost
+
+from app.model.reacoes import Reacoes
+from app.model.comentario import Comentario
+
+from app.model.amigo import Amigo
+from app.model.amigo import Solicitacao as Sl
 
 
 def index():
@@ -31,7 +32,10 @@ def index():
 		for sol in sols:
 			usu = User.query.filter_by(id=sol.id_en).first()
 			usuImg = UserImg.query.filter_by(id_user=usu.id).first()
-			listSol.append({'user':usu,'img':base64.b64encode(usuImg.imagem).decode('ascii')})
+			listSol.append({
+				'user':usu,
+				'img':base64.b64encode(usuImg.imagem).decode('ascii')
+			})
 		user.solsLen = len(listSol)
 		user.sols = listSol	
 	
@@ -91,8 +95,11 @@ def index():
 			user_comm.img = base64.b64encode(img.imagem).decode('ascii')
 			
 			
-			listComm.append({'data':comm.data,'body':comm.body,'id':comm.id,
-				'id_post':comm.id_post,'user':user_comm})
+			
+			listComm.append({
+				'data':comm.data,'body':comm.body,'id':comm.id,
+				'id_post':comm.id_post,'user':user_comm
+			})
 	
 		post.commLen = len(listComm)
 		post.comm = listComm
@@ -105,7 +112,11 @@ def index():
 		reacs = []
 		reacao = Reacoes.query.filter_by(id_post=post.id).all()
 		for re in reacao:
-			reacs.append({'data':re.data,'user':User.query.filter_by(id=re.id_user).first(),'post':re.id_post})
+			reacs.append({
+				'data':re.data,
+				'post':re.id_post,
+				'user':User.query.filter_by(id=re.id_user).first(),
+			})
 			if user:
 				if user.id == re.id_user:
 					post.Liked = True
@@ -117,5 +128,8 @@ def index():
 
 
 	
-	return render_template('index.html',user=user,posts=posts)
+	return render_template(
+		'index.html',user=user,
+		posts=posts,
+	)
 	

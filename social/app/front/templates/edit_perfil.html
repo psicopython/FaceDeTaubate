@@ -1,0 +1,76 @@
+
+{% extends 'base.html' %}
+
+{% block titulo %}
+Editar Perfil
+{% endblock titulo %}
+
+
+{% block conteudo %}
+<div class="container">
+	
+	{% with msgs = get_flashed_messages() %}
+		{% if msgs %}
+			<div class="alert alert-danger">
+				{% for msg in msgs %}
+					{{ msg }}<br>
+				{% endfor %}
+			</div>
+		{% endif %}
+	{% endwith %}
+	
+	<form action="/perfil/{{user.id}}/editar/"
+		enctype="multipart/form-data" method="post">
+		
+		
+		<br>
+		<label for="nome" onclick="$('#nome').toggle()">Nome</label>
+		<br>
+		<input class="form-control" style="display:none;" id="nome" type="text" name="nome" placeholder="Novo nome">
+		
+		<br>
+		
+		<b onclick="$('#btn-foto').toggle()">Foto de perfil</b>
+		<br>
+		<label style="display:none;" id="btn-foto" class="form-control btn btn-outline-info" for="foto" >img</label>
+		<input style="display:none;" id="foto" type="file" accept="image/*" name="img">
+		
+		<br>
+		
+		<label for="email" onclick="$('.email').toggle()">Email</label>
+		<br>
+		<input style="display:none;" class="form-control email" id="email" class="email" type="email" name="email1" placeholder="novo email">
+		<br>
+		<input style="display:none;" class="form-control email" type="email" name="email2" placeholder="repita o novo email">
+	
+		<br>
+	
+		<label for="senha" onclick="$('.senha').toggle()">Senha</label>
+		<br>
+		<input style="display:none;" class="form-control senha" id="senha" type="password" name="senha1" placeholder="nova senha">
+		<br>
+		<input style="display:none;" class="form-control senha" type="password" name="senha2" placeholder="repita a nova senha">
+		
+		<br>
+	
+		<label for="sexo" onclick="$('#sexo').toggle()">Sexo</label>
+		<br>
+		<select id="sexo" name="sexo" style="display:none;">
+			<option class="form-control" value="">Sexo</option>
+			<option class="form-control" value="f">Feminino</option>
+			<option class="form-control" value="m">Masculino</option>
+			<option class="form-control" value="o">Não quero dizer</option>
+		</select>
+		<br>
+		<br>
+		
+		
+		<input class="form-control" name="senha" type="password" placeholder="Senha Atual">
+		
+		<br>
+		
+		<button type="submit" class="form-control btn btn-outline-success">Salvar</button>
+		
+	</form>
+</div>
+{% endblock conteudo %}

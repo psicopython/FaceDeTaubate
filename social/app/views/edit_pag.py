@@ -1,5 +1,5 @@
 from flask import (
-	redirect, request,
+	redirect, request, flash,
 	render_template, session,
 )
 
@@ -25,9 +25,13 @@ def edit_pag(pag,id):
 			
 		if request.method.upper() == 'POST':
 			body = request.form['body']
-			bodyLast = Post.query.filter_by(id=id).update({'body_post':body})
-			db.session.commit()
-			return redirect('/')
+			if body:
+				bodyLast = Post.query.filter_by(id=id).update({'body_post':body})
+				db.session.commit()
+				return redirect('/')
+			else:
+				flash('O campo não pode ficar vazio!')
+				return redirect(request.url)
 			
 			
 		else:
@@ -51,19 +55,14 @@ def edit_pag(pag,id):
 			
 		if request.method.upper() == 'POST':
 			body = request.form['body']
-			bodyLast = Comentario.query.filter_by(id=id).update({'body':body})
-			db.session.commit()
-			return redirect('/')
-			
+			if body:
+				bodyLast = Comentario.query.filter_by(id=id).update({'body':body})
+				db.session.commit()
+				return redirect('/')
+			else:
+				flash('o campo não pode ficar vazio!')
+				return redirect(request.url)
 			
 		else:
 			comm = Comentario.query.filter_by(id=id).first()
-			#imgTmp = ImgPost.query.filter_by(id_post=id).all()
-			#imgs = {}
-			#for img in imgTmp:
-			#	if post.id in imgs:
-			#		imgs[post.id].append(base64.b64encode(img.imagem_dt).decode('ascii'))
-			#	else:
-			#		imgs[post.id] = [base64.b64encode(img.imagem_dt).decode('ascii')]
-					
 			return render_template('edit_post.html',post=comm,pag=pag)

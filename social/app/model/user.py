@@ -13,15 +13,17 @@ class User(db.Model):
 	
 	id = db.Column(db.Integer,primary_key=True)
 	nome = db.Column(db.String(128),nullable=False)
+	sexo = db.Column(db.CHAR,nullable=False)
 	email = db.Column(db.String(128),unique=True,nullable=False)
 	senha  = db.Column(db.String(512),nullable=False)
 	data_cr = db.Column(db.DateTime,nullable=False)
 	
 	
 	
-	def __init__(self,nome, email,senha):
+	def __init__(self,nome, email,senha,sexo):
 	
 		self.nome = nome
+		self.sexo = sexo
 		self.email = email
 		self.senha  = gph(senha)
 		self.data_cr = datetime.now()

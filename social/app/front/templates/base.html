@@ -10,12 +10,16 @@
           
 	</head>
 
-	<body>
+	<body class="">
 	{% if user_local%}
 		 <div class="cabecalho">
 			<figure>
-				<img src="data:;base64,{{user_local.img}}">
-				<figcaption>
+				{% if user_local.img %}
+					<img src="data:;base64,{{user_local.img}}">
+				{% else %}
+					<img src="{{url_for('static',filename='img/perfil/img_user_m.jpg')}}">
+				{% endif %}
+				<figcaption class="flex">
 					<h2>{{user_local.nome.split()[0]}}</h2>
 				</figcaption>
 			</figure>
@@ -53,39 +57,41 @@
 		</nav>
 		{% if user %}
 		<br>
-		<div class="cp">
-			<div class="add_post">
+		<div class=" container flex">
+			<div class="cp add_post flex">
+				
 				<a onclick="$('.add_post').toggle()">No que você está pensando, {{user.nome.split()[0]}} ?</a>
+			
 			</div>
-			<div class="container">
-				<div class="add_post publicacoes" style="display:none;">
-					
-					<a class="" onclick="$('.add_post').toggle()">X</a>
-					{% with mensagem = get_flashed_messages() %}
-						{% if mensagem %}
-							{% for msg in mensagem%}
-							<p class="alert alert-danger">{{msg}}</p>
-							{% endfor %}
-						{% endif %}
-					{% endwith %}
-		
-					<form method="post" class="form-data" action="{{url_for('webui.post')}}" enctype="multipart/form-data">
-						<textarea class="form-control" placeholder="No que esta pensando?" name="body"></textarea><br>
-						<input id="input-file" class="form-control-file" type="file" accept="image/*" name="img" multiple ><br>
-						<div id="preview">
-							
-						</div>
-						<button class="form-control btn btn-outline-primary" type="submit">Enviar</button>
-					</form>
-		
+		</div>
+		<a style="display:none;" class="add_post" onclick="$('.add_post').toggle()">X</a>
+		<div class="add_post container flex" style="display:none;">
+			
+			{% with mensagem = get_flashed_messages() %}
+				{% if mensagem %}
+					{% for msg in mensagem%}
+					<p class="alert alert-danger">{{msg}}</p>
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+
+			<form method="post" class="form-data" action="{{url_for('webui.post')}}" enctype="multipart/form-data">
+				<div class="container">
+					<textarea  placeholder="No que esta pensando?" name="body"></textarea>
+					<br>
+					<br>
+					<label for="input-file"><b class="btn btn-outline-dark">img</b></label><br>
 				</div>
-			</div>
+				<input id="input-file" class="form-control-file" type="file" accept="image/*" name="img" multiple style="display:none;"><br>
+				<div id="preview">
+					
+				</div>
+				<button class="form-control btn btn-outline-success" type="submit">Enviar</button>
+			</form>
 		</div>
 		{% endif %}
 		
 		{% block conteudo %}{% endblock conteudo %}
-		
-		<footer>Copyright &copy;<br><sub>Projeto Iniciado dia 09/08/2020 às 00:00</sub></footer>
 		
 		<script src="{{url_for('static',filename='js/jquery.js')}}"></script>
 		<script src="{{url_for('static',filename='js/popper.js')}}"></script>

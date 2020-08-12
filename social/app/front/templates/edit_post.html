@@ -5,15 +5,26 @@
 
 {% block conteudo %}
 <div class="container">
+	<br><br>
 	<form action="/editar/{{pag}}/{{post.id}}/" method="POST" accept-charset="utf-8">
-		<div class="alert alert-warning">
-			<p>As imagens não são Alteráveis!</p>
-		</div>
+		{% with msgs = get_flashed_messages() %}
+			{% if msgs %}
+				{% for msg in msgs %}
+					<div class="alert alert-danger">
+						<p>{{msg}}</p>
+					</div>
+				{% endfor %}
+			{% else %}
+				<div class="alert alert-warning">
+					<p>As imagens não são Alteráveis!</p>
+				</div>
+			{% endif%}
+		{% endwith %}
 		<h4>Mensagem</h4>
 		{% if pag == 'post' %}
-			<textarea class="form-control" name="body">{{post.body_post}}</textarea>
+			<textarea class="form-control" name="body" placeholder="Este campo não pode ficar vazio! ">{{post.body_post}}</textarea>
 		{% elif pag == 'comm' %}
-			<textarea class="form-control" name="body">{{post.body}}</textarea>
+			<textarea class="form-control" name="body" placeholder="Este campo não pode ficar vazio!">{{post.body}}</textarea>
 		{%endif%}
 		<br>
  		<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">

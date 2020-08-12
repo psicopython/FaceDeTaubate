@@ -14,19 +14,38 @@
 	{% endwith %}
 	
 	<form action="/cadastro/" method="post" enctype="multipart/form-data">
-		<fieldset>
-			<legend><sub>Foto Perfil</sub></legend>
-			<input id="foto" type="file" accept="image/*" name="img"><br>
-		</fieldset><br>
+		<br>
+		<br>
+		<div class="container flex">
+			<label class="flex" for="foto">
+				<img id="img_preview" src="{{url_for('static',filename='img/perfil/user_img_m.png')}}">
+			</label>
+			<label for="foto" class="btn btn-outline-primary form-control">Foto Perfil</label>
+			<input id="foto" type="file" accept="image/*" name="img" style="display:none;"
+				value="{{url_for('static',filename='img/perfil/img_user_m.jpg')}}"><br>
+		</div>
 		<input class="form-control" type="text"     placeholder="Nome"               name="nome"><br>
 		<input class="form-control" type="email"    placeholder="Email"              name="email"><br>
 		<input class="form-control" type="email"    placeholder="Confirme o Email"   name="email2"><br>
+		
+		
+		<select class="form-control" name="sexo" >
+			<option value="">Sexo</option>
+			<option value="m">Masculino</option>
+			<option value="f">Feminino</option>
+			<option value="o">não quero específicar</option>
+		</select>
+		<br>
+		
 		<input class="form-control senha" type="password" placeholder="Senha"              name="senha"><br>
 		<input class="form-control senha" type="password" placeholder="Confirme a Senha"   name="senha2"><br>
 		<input class="btn-senha" type="checkbox" id="btn-senha" onclick="senha"><label for="btn-senha" class="lab-senha">Mostrar Senha</label>
 		<button class="form-control btn btn-outline-primary" type="submit">Cadastrar</button>
 		<br><br>
-		<sub><a class="btn btn-outline-link" href="/login/">Login</a></sub>
+		<b class="container flex">
+			<sub>Já é Cadastrado?</sub>
+			<a id="login" class="btn btn-outline-link" href="/login/">faça o Login</a>
+		</b>
 	</form>
 </div>
 {% endblock conteudo %}

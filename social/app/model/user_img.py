@@ -11,7 +11,7 @@ class UserImg(db.Model):
 	data_upl = db.Column(db.DateTime,nullable=False)
 	
 	def __init__(self,imagem,id_user):
-		self.imagem = imagem.read()
+		self.imagem = imagem
 		self.id_user = id_user
 		self.data_upl = self._get_data()
 	
