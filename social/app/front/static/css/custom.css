@@ -80,10 +80,58 @@ img{
 	border: 1px solid #33dfba;
 	border-radius: 10px;
 }
+
+.cpost {
+	position: absolute;
+	padding-top: 30px;
+	background: white;
+	min-height: 120%;
+	padding: 10%;
+	width: 100%;
+	top: 0;
+}
+
+.cpost textarea{
+	width: 96%;
+	padding: 2%;
+}
+
+
 .editar{
 	width: 100%;
 }
+.img_edit{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+.img_edit_item {
+	display: flex;
+	margin: 1%;
+	width: 30%;
+	min-height: 100px;
+	align-items: center;
+	border: .3px dotted black;
+	
+}
+.img_edit_item figure {
+	position: relative;
+}
+.img_edit_item figcaption {
+	position: absolute;
+	top: 5px;
+	background: rgba(255,255,255,0.5);
+}
 
+/* stack over flow*/
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
 
 
 footer

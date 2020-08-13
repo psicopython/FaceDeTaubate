@@ -32,9 +32,10 @@ def post():
 			current_app.db.session.add(post)
 			current_app.db.session.commit()
 			for img in img_list:
-				imgPost = ImgPost(post_id=post.id,imagem=img)
-				current_app.db.session.add(imgPost)
-				current_app.db.session.commit()
+				if img:
+					imgPost = ImgPost(post_id=post.id,imagem=img)
+					current_app.db.session.add(imgPost)
+					current_app.db.session.commit()
 				
 			return redirect('/')
 		else:

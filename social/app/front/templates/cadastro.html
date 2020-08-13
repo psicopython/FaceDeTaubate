@@ -17,11 +17,11 @@
 		<br>
 		<br>
 		<div class="container flex">
-			<label class="flex" for="foto">
-				<img id="img_preview" src="{{url_for('static',filename='img/perfil/user_img_m.png')}}">
+			<label class="flex" for="new_img">
+				<img id="perfil_img" src="{{url_for('static',filename='img/perfil/user_img_m.png')}}">
 			</label>
-			<label for="foto" class="btn btn-outline-primary form-control">Foto Perfil</label>
-			<input id="foto" type="file" accept="image/*" name="img" style="display:none;"
+			<label for="new_img" class="btn btn-outline-primary form-control">Foto Perfil</label>
+			<input id="new_img" type="file" accept="image/*" name="img" style="display:none;"
 				value="{{url_for('static',filename='img/perfil/img_user_m.jpg')}}"><br>
 		</div>
 		<input class="form-control" type="text"     placeholder="Nome"               name="nome"><br>

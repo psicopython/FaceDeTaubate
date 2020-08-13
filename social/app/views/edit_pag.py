@@ -1,11 +1,12 @@
 from flask import (
 	redirect, request, flash,
 	render_template, session,
+	current_app,
 )
 
 import base64
 
-from app.model import db
+
 from app.model.post import Post
 from app.model.ImgPost import ImgPost
 from app.model.comentario import Comentario
@@ -23,15 +24,33 @@ def edit_pag(pag,id):
 		else:
 			return redirect('/')
 			
+		imgsP = ImgPost.query.filter_by(id_post=post.id).all()
+	
 		if request.method.upper() == 'POST':
 			body = request.form['body']
-			if body:
-				bodyLast = Post.query.filter_by(id=id).update({'body_post':body})
-				db.session.commit()
-				return redirect('/')
-			else:
-				flash('O campo não pode ficar vazio!')
-				return redirect(request.url)
+			new_img = request.files.getlist('img')
+			
+			if imgsP:
+				for im in imgsP:
+					valida = request.form['img-del-'+str(im.id)]
+					if valida.lower() == 'delete':
+						dele = ImgPost.query.filter_by(id=im.id).first()
+						current_app.db.session.delete(dele)
+						current_app.db.session.commit()
+						
+						
+			bodyLast = Post.query.filter_by(id=id).update({'body_post':body})
+			current_app.db.session.commit()
+			
+			if new_img:
+				for img in new_img:
+					if img:
+						img1 = ImgPost(post_id=post.id,imagem=img)
+						current_app.db.session.add(img1)
+						current_app.db.session.commit()
+						
+			return redirect('/')
+				
 			
 			
 		else:
@@ -40,11 +59,13 @@ def edit_pag(pag,id):
 			imgs = {}
 			for img in imgTmp:
 				if post.id in imgs:
-					imgs[post.id].append(base64.b64encode(img.imagem_dt).decode('ascii'))
+					imgs[post.id].append({'id':img.id,'img':base64.b64encode(img.imagem_dt).decode('ascii')})
 				else:
-					imgs[post.id] = [base64.b64encode(img.imagem_dt).decode('ascii')]
+					imgs[post.id] = [{'id':img.id,'img':base64.b64encode(img.imagem_dt).decode('ascii')}]
 					
 			return render_template('edit_post.html',post=post,imgs=imgs,pag=pag)
+	
+	
 	
 	
 	elif pag.upper() == 'COMM':

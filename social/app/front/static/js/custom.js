@@ -9,21 +9,44 @@ $(document).ready(function(){
 			$('.lab-senha').html('Mostrar Senha')
 		}
 	});
-	
-	$("#foto").change(function() {
-	  readURL(this);
+	$("#new_img").change(function() {
+	  carregar_foto_perfil(this);
 	});
+    var imagesPreview = function(input, local) {
+		$(local).empty()
+        if (input.files) {
+            var filesAmount = input.files.length;
+
+            for (i = 0; i < filesAmount; i++) {
+                var reader = new FileReader();
+
+                reader.onload = function(event) {
+                	var img = '<div class="img_edit_item" ><figure><img src="'+event.target.result+'"></figure></div>'
+						
+						
+                    $(local).append(img).appendTo(local);
+                }
+
+                reader.readAsDataURL(input.files[i]);
+            }
+        }
+
+    };
+
+    $('#input-file').on('change', function() {
+        imagesPreview(this, '.img_preview');
+    });
 	
 });
 
-function readURL(input) {
+
+function carregar_foto_perfil(input) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
     
     reader.onload = function(e) {
-      $('#img_preview').attr('src', e.target.result);
+      $('#perfil_img').attr('src', e.target.result);
     }
-    
     reader.readAsDataURL(input.files[0]); // convert to base64 string
   }
 }

@@ -25,10 +25,10 @@ bp = Blueprint('webui',__name__.split()[0])
 
 bp.add_url_rule('/',methods=["GET"],view_func=index,endpoint='index')
 
-bp.add_url_rule('/perfil/<int:id>/',methods=["GET"],
+bp.add_url_rule('/<int:id>/<string:nome>/',methods=["GET"],
 	view_func=perfil,endpoint='perfil')
 
-bp.add_url_rule('/perfil/<int:id>/editar/',methods=["GET","POST"],
+bp.add_url_rule('/<int:id>/<string:nome>/editar/',methods=["GET","POST"],
 	view_func=editar_perfil,endpoint='editar_perfil')
 
 

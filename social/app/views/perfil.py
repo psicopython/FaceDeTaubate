@@ -20,7 +20,7 @@ from app.model.reacoes import Reacoes
 from app.model.comentario import Comentario
 
 
-def perfil(id):
+def perfil(id,nome):
 	
 	user, userImg, user_local = None, None, None
 	
@@ -33,6 +33,9 @@ def perfil(id):
 	if not user_local:
 		return redirect('/')
 	else:
+		if user_local.nome.split()[0].lower()!= nome:
+			return redirect('/')
+			
 		img = UserImg.query.filter_by(id_user=user_local.id).first()
 		if img:
 			user_local.img = base64.b64encode(img.imagem).decode('ascii')

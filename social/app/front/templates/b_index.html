@@ -14,7 +14,7 @@
 				<ul>
 						
 				{% for sol in user.sols %}
-					<li><a href="/perfil/{{sol.user.id}}/">
+					<li><a href="/{{sol.user.id}}/{{sol.user.nome.lower()}}/">
 						{{sol.user.nome.split()[0]}}
 					</a>
 						<a class="btn btn-outline-primary" href="/amizade/responder/{{sol.user.id}}/">Aceitar</a> 
@@ -52,7 +52,7 @@
 			
 		<div>
 			<h3>
-				<a href="/perfil/{{post.user.id}}">
+				<a href="/{{post.user.id}}/{{post.user.nome.split()[0].lower()}}/">
 				{% if post.user.img %}
 					<img class="miniatura" src="data:;base64,{{post.user.img}}">
 				{% endif %}
@@ -62,7 +62,7 @@
 			<sup>
 				{{post.data_cr.day }}/{{post.data_cr.month }}/{{post.data_cr.year }} às {{post.data_cr.hour }}:{{post.data_cr.minute }}
 			</sup><br>
-			<pre><i>{{post.body_post}}</i></pre>
+			<pre><i style="max-width:50%;">{{post.body_post}}</i></pre>
 		</div>
 			
 			

@@ -6,7 +6,7 @@
 {% block conteudo %}
 <div class="container">
 	<br><br>
-	<form action="/editar/{{pag}}/{{post.id}}/" method="POST" accept-charset="utf-8">
+	<form action="/editar/{{pag}}/{{post.id}}/" enctype="multipart/form-data" method="POST" accept-charset="utf-8">
 		{% with msgs = get_flashed_messages() %}
 			{% if msgs %}
 				{% for msg in msgs %}
@@ -14,39 +14,39 @@
 						<p>{{msg}}</p>
 					</div>
 				{% endfor %}
-			{% else %}
-				<div class="alert alert-warning">
-					<p>As imagens não são Alteráveis!</p>
-				</div>
 			{% endif%}
 		{% endwith %}
-		<h4>Mensagem</h4>
+		<h4>Editar </h4>
 		{% if pag == 'post' %}
-			<textarea class="form-control" name="body" placeholder="Este campo não pode ficar vazio! ">{{post.body_post}}</textarea>
+			<textarea class="form-control" name="body" placeholder="Legenda">{{post.body_post}}</textarea>
 		{% elif pag == 'comm' %}
-			<textarea class="form-control" name="body" placeholder="Este campo não pode ficar vazio!">{{post.body}}</textarea>
+			<textarea class="form-control" name="body" placeholder="Comentário">{{post.body}}</textarea>
 		{%endif%}
 		<br>
+		<label for="input-file" class="btn btn-dark">
+			Add Imagem
+		</label> 
+		<input id="input-file" type="file" accept="image/*" multiple style="display:none;" name="img"><br>
+ 		
  		<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
- 			<div class="carousel-inner">
+ 			<div class="img_edit img_preview">
+ 				
+ 			</div>
+ 			<hr>
+ 			<div class="img_edit">
  				{%if imgs %}
 				{% for img in imgs[post.id] %}
 					{% if img %}
-						{% if imgs[post.id][1] %}
-							{% if img == imgs[post.id][0]%}
- 								<div class="carousel-item active">
-									<img class="d-block w-100" src="data:;base64,{{img}}">
-    							</div>
-    						{% else %}
- 								<div class="carousel-item">
-									<img class="d-block w-100"  src="data:;base64,{{img}}">
-    							</div>
-							{% endif %}
-						{% else %}
-							<img src="data:;base64,{{img}}">
-						{% endif %}
+					<div class="img_edit_item img_item-{{img.id}}">
+						<figure>
+							<img src="data:;base64,{{img.img}}">
+							<figcaption>
+								<b onclick="$('.img_item-{{img.id}}').toggle(); $('#img_item-{{img.id}}').val('delete')" >Excluir</b>
+							</figcaption>
+						</figure>
+					</div>
+						<input type="num" id="img_item-{{img.id}}" name="img-del-{{img.id}}" style="display:none;">
 					{% endif %}
-	
 				{% endfor %}
 				{% endif %}
 			</div>

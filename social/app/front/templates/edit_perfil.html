@@ -19,7 +19,7 @@ Editar Perfil
 		{% endif %}
 	{% endwith %}
 	
-	<form action="/perfil/{{user.id}}/editar/"
+	<form action="/{{user.id}}/{{user.nome.split()[0]}}/editar/"
 		enctype="multipart/form-data" method="post">
 		
 		

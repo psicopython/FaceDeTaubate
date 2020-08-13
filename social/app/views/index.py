@@ -25,7 +25,8 @@ def index():
 		img = UserImg.query.filter_by(id_user=session['user_id']).first()
 		if img:
 			user.img = base64.b64encode(img.imagem).decode('ascii')
-		
+	else:
+		return render_template('login.html')
 	if user:
 		listSol = []
 		sols = Sl.query.filter_by(id_re=user.id).all()

@@ -18,7 +18,7 @@ def cadastro():
 		#tel = request.form['tel']
 		#data = request.form['data']
 		#username = request.form['username']
-		nome = request.form['nome']
+		nome = request.form['nome'].title()
 		sexo = request.form['sexo']
 		email = request.form['email']
 		email2 = request.form['email2']
