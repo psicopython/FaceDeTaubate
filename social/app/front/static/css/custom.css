@@ -31,6 +31,8 @@ html, body
 	background: white;
 	position: relative;
 	padding: 5px 10px;
+	border: none;
+	border-radius: 10px;
 }
 .publicacoes h3,p,sub{
 	margin: 0px 5%;
@@ -41,7 +43,7 @@ html, body
 img{
 	width: 100%;
 }
-#img_preview{
+#perfil_img{
 	display: flex;
 	border-radius: 50%;
 	width: 80%;

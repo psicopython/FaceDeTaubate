@@ -41,6 +41,29 @@
 						<li class="nav-item">
 							<a class="nav-link" href="/{{user.id}}/{{user.nome.split()[0].lower()}}/">{{user.nome}}</a>
 						</li>
+						{% if user.solsLen %}
+						<li class="nav-item">
+							<b class="nav-link solicitacao" onclick="$('.solicitacao').toggle()">Ver solicitações({{user.solsLen}})</b>
+							<b class="nav-link solicitacao" onclick="$('.solicitacao').toggle()" style="display:none;">Ocultar</b>
+							<br>
+								{% if user.solsLen > 0 %}
+								<div class="publicacoes solicitacao" style="display:none;">
+									<b>Solicitações</b><br>
+									<ul>
+											
+									{% for sol in user.sols %}
+										<li><a href="/{{sol.user.id}}/{{sol.user.nome.lower()}}/">
+											{{sol.user.nome.split()[0]}}<br>
+										</a>
+											<a class="btn btn-outline-primary" href="/amizade/responder/{{sol.user.id}}/">Aceitar</a> 
+											<a class="btn btn-outline-danger" href="/amizade/cancelar_solicitacao/{{sol.user.id}}/">Recusar</a>
+										</li>
+									{% endfor %}
+									</ul>
+								</div>
+								{% endif %}
+						</li>
+						{% endif %}
 						<li class="nav-item">
 							<a class="nav-link" href="{{url_for('webui.logout')}}">Sair</a>
 						</li>

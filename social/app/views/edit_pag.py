@@ -9,6 +9,7 @@ import base64
 
 from app.model.post import Post
 from app.model.ImgPost import ImgPost
+from app.model.ImgPost import ImgComm
 from app.model.comentario import Comentario
 
 
@@ -39,7 +40,7 @@ def edit_pag(pag,id):
 						current_app.db.session.commit()
 						
 						
-			bodyLast = Post.query.filter_by(id=id).update({'body_post':body})
+			bodyLast = Post.query.filter_by(id=id).update({'body':body})
 			current_app.db.session.commit()
 			
 			if new_img:
@@ -59,9 +60,9 @@ def edit_pag(pag,id):
 			imgs = {}
 			for img in imgTmp:
 				if post.id in imgs:
-					imgs[post.id].append({'id':img.id,'img':base64.b64encode(img.imagem_dt).decode('ascii')})
+					imgs[post.id].append({'id':img.id,'img':base64.b64encode(img.imagem).decode('ascii')})
 				else:
-					imgs[post.id] = [{'id':img.id,'img':base64.b64encode(img.imagem_dt).decode('ascii')}]
+					imgs[post.id] = [{'id':img.id,'img':base64.b64encode(img.imagem).decode('ascii')}]
 					
 			return render_template('edit_post.html',post=post,imgs=imgs,pag=pag)
 	
@@ -76,9 +77,17 @@ def edit_pag(pag,id):
 			
 		if request.method.upper() == 'POST':
 			body = request.form['body']
+			img = request.files['img']
+			
 			if body:
 				bodyLast = Comentario.query.filter_by(id=id).update({'body':body})
-				db.session.commit()
+				current_app.db.session.commit()
+				
+				if img:
+					comm_img = ImgComm(id_comm=id,imagem=img)
+					current_app.db.session.add(comm_img)
+					current_app.db.session.commit()
+					
 				return redirect('/')
 			else:
 				flash('o campo não pode ficar vazio!')
@@ -86,4 +95,6 @@ def edit_pag(pag,id):
 			
 		else:
 			comm = Comentario.query.filter_by(id=id).first()
-			return render_template('edit_post.html',post=comm,pag=pag)
+			img = ImgComm.query.filter_by(id_comm=id).first()
+			imgs = {'id':img.id,'img':base64.b64encode(img.imagem).decode('ascii')} if img else False
+			return render_template('edit_post.html',post=comm,pag=pag,img=imgs)

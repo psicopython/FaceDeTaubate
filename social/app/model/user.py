@@ -14,9 +14,9 @@ class User(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
 	nome = db.Column(db.String(128),nullable=False)
 	sexo = db.Column(db.CHAR,nullable=False)
+	data = db.Column(db.DateTime,nullable=False)
 	email = db.Column(db.String(128),unique=True,nullable=False)
 	senha  = db.Column(db.String(512),nullable=False)
-	data_cr = db.Column(db.DateTime,nullable=False)
 	
 	
 	
@@ -26,7 +26,7 @@ class User(db.Model):
 		self.sexo = sexo
 		self.email = email
 		self.senha  = gph(senha)
-		self.data_cr = datetime.now()
+		self.data = datetime.now()
 	
 	
 	def __repr__(self):

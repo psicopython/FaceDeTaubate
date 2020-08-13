@@ -5,12 +5,12 @@
 
 
 {% block conteudo %}
-<div class="container">
+<div class="flex">
 <br>
 {% with mensagem = get_flashed_messages() %}
 	{% if mensagem %}
 		{% for men in mensagem %}
-			<p class="alert alert-danger">{{men}}</p>
+			<p class="alert alert-danger flex">{{men}}</p>
 		{% endfor %}
 	{% endif %}
 {% endwith %}

@@ -5,19 +5,19 @@
 
 {% block conteudo %}
 <div class="container">
-	{% with mensagem = get_flashed_messages() %}
-		{% if mensagem %}
-			{% for men in mensagem %}
-			<p class="alert alert-danger">{{men}}</p>
-			{% endfor %}
-		{% endif %}
-	{% endwith %}
 	
 	<form action="/cadastro/" method="post" enctype="multipart/form-data">
 		<br>
 		<br>
 		<div class="container flex">
-			<label class="flex" for="new_img">
+			{% with mensagem = get_flashed_messages() %}
+				{% if mensagem %}
+					{% for men in mensagem %}
+					<p class="alert alert-danger">{{men}}</p>
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+			<label class="flex" for="new_img" id="perfil_img_label">
 				<img id="perfil_img" src="{{url_for('static',filename='img/perfil/user_img_m.png')}}">
 			</label>
 			<label for="new_img" class="btn btn-outline-primary form-control">Foto Perfil</label>
@@ -42,10 +42,14 @@
 		<input class="btn-senha" type="checkbox" id="btn-senha" onclick="senha"><label for="btn-senha" class="lab-senha">Mostrar Senha</label>
 		<button class="form-control btn btn-outline-primary" type="submit">Cadastrar</button>
 		<br><br>
-		<b class="container flex">
-			<sub>Já é Cadastrado?</sub>
-			<a id="login" class="btn btn-outline-link" href="/login/">faça o Login</a>
-		</b>
+		<p class="container flex">
+			Já é Cadastrado?
+			<a id="login" class="btn btn-outline-link flex" href="/login/">
+				<b>
+					faça o Login
+				</b>
+			</a>
+		</p>
 	</form>
 </div>
 {% endblock conteudo %}

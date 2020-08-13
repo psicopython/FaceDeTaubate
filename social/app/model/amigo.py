@@ -9,9 +9,9 @@ class Amigo(db.Model):
 	__tablename__='amigo'
 	
 	id = db.Column(db.Integer, primary_key=True)
+	data = db.Column(db.DateTime,nullable=False)
 	id_user = db.Column(db.Integer,nullable=False)
 	id_amigo = db.Column(db.Integer,nullable=False)
-	data = db.Column(db.DateTime,nullable=False)
 	
 	def __init__(self,id_en,id_re):
 		self.data     = self._get_data()

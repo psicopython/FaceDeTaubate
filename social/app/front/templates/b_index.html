@@ -4,27 +4,11 @@
 {% block conteudo %}
 <div id="section" class="conteiner">
 	{% if user %}
-		{% if user.solsLen %}
-		<b class="solicitacao" onclick="$('.solicitacao').toggle()">Ver solicitações({{user.solsLen}})</b>
-		<b class="solicitacao" onclick="$('.solicitacao').toggle()" style="display:none;">Ocultar</b>
-		<br>
-			{% if user.solsLen > 0 %}
-			<div class="publicacoes solicitacao" style="display:none;">
-				<b>Solicitações</b><br>
-				<ul>
-						
-				{% for sol in user.sols %}
-					<li><a href="/{{sol.user.id}}/{{sol.user.nome.lower()}}/">
-						{{sol.user.nome.split()[0]}}
-					</a>
-						<a class="btn btn-outline-primary" href="/amizade/responder/{{sol.user.id}}/">Aceitar</a> 
-						<a class="btn btn-outline-danger" href="/amizade/cancelar_solicitacao/{{sol.user.id}}/">Recusar</a>
-					</li>
-				{% endfor %}
-				</ul>
-			</div>
-			{% endif %}
-		{% endif %}
+	
+	
+
+		
+		
 	{% endif %}
 	<br><br>
 	{% for post in posts %}
@@ -60,9 +44,9 @@
 				</a>
 			</h3>
 			<sup>
-				{{post.data_cr.day }}/{{post.data_cr.month }}/{{post.data_cr.year }} às {{post.data_cr.hour }}:{{post.data_cr.minute }}
+				{{post.data.day }}/{{post.data.month }}/{{post.data.year }} às {{post.data.hour }}:{{post.data.minute }}
 			</sup><br>
-			<pre><i style="max-width:50%;">{{post.body_post}}</i></pre>
+			<pre><i style="max-width:50%;">{{post.body}}</i></pre>
 		</div>
 			
 			
@@ -116,7 +100,6 @@
 					{% endif %}
 				{% endif%}
 			</span>
-			&nbsp;</nbps><span><b>compartilhar</b></span>
 		</div>
 		{% else %}
 		<br>
@@ -147,10 +130,11 @@
 		<div id="comentario-{{post.id}}" class="publicacoes" style="display:none;">
 			<hr>
 			{% for comm in post.comm %}
-			<div class="">
-				<b>{%if comm.user.img %}<img class="miniatura" src="data:;base64,{{ comm.user.img }}">{%endif%}
-				{{ comm.user.nome}}
-			
+			<div class="conteiner publicacoes bg-info">
+				<a href="/{{comm.user.id}}/{{comm.user.nome.split()[0]}}/">
+					<b>{%if comm.user.img %}<img class="miniatura" src="data:;base64,{{ comm.user.img }}">{%endif%}
+					{{ comm.user.nome}}
+				</a>
 				{% if comm.user.id == post.id_user %}
 					<sup>autor</sup>
 				{% endif %}
@@ -168,6 +152,45 @@
 				
 				</b>
 				<pre><i>{{comm.body}}</i></pre>
+				{% if comm.img %}
+				<div>
+					<img src="data:;base64,{{comm.img}}">
+				</div>
+				{% endif %}
+				<div>
+					{% if comm.reacs %}
+						<br>
+						{% if comm.Liked %}
+							<a class="btn btn-primary" href="/comentario/unlike/{{comm.id}}/">
+								
+								{% if comm.reactLen < 2 %}
+									{{ comm.reactLen}} like
+								{% else %}
+									{{ comm.reactLen}} likes 
+								{% endif %}
+								
+							</a>
+						{% else %}
+							<a class="btn btn-outline-primary" href="/comentario/like/{{comm.id}}/">
+						
+								{% if comm.reactLen < 2%}
+									{{ comm.reactLen}} like
+								{% else %}
+									{{ comm.reactLen}} likes 
+								{% endif %}
+							</a>
+						{% endif %}
+					{% else %}
+						<a class="btn btn-outline-primary" href="/comentario/like/{{comm.id}}/">
+					
+							{% if comm.reactLen < 2%}
+								{{ comm.reactLen}} like
+							{% else %}
+								{{ comm.reactLen}} likes 
+							{% endif %}
+						</a>
+					{% endif %}
+				</div>
 			</div>
 			{% endfor %}
 			<hr>
@@ -177,8 +200,10 @@
 			
 			
 		{% if user %}
-		<form action="/post/comentario/post/{{post.id}}/" method="post">
+		<form action="/comentario/post/{{post.id}}/" enctype="multipart/form-data" method="post">
 			<textarea  type="text" name="body" class="form-control" placeholder="comentario"></textarea><br>
+			<label class="btn btn-dark" for="input-file-{{post.id}}">Imagem</label>
+			<input id="input-file-{{post.id}}" name="img" type="file" accept="Image/*" style="display:none;">
 			<button type="submit" class="form-control btn btn-primary">Comentar</button>
 		</form>
 		{% endif %}

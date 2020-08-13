@@ -17,11 +17,7 @@
 			{% endif%}
 		{% endwith %}
 		<h4>Editar </h4>
-		{% if pag == 'post' %}
-			<textarea class="form-control" name="body" placeholder="Legenda">{{post.body_post}}</textarea>
-		{% elif pag == 'comm' %}
-			<textarea class="form-control" name="body" placeholder="Comentário">{{post.body}}</textarea>
-		{%endif%}
+			<textarea class="form-control" name="body" placeholder="Legenda">{{post.body}}</textarea>
 		<br>
 		<label for="input-file" class="btn btn-dark">
 			Add Imagem
@@ -33,6 +29,7 @@
  				
  			</div>
  			<hr>
+ 			{% if pag == 'post' %}
  			<div class="img_edit">
  				{%if imgs %}
 				{% for img in imgs[post.id] %}
@@ -50,6 +47,19 @@
 				{% endfor %}
 				{% endif %}
 			</div>
+			{% else %}
+				{% if img %}
+					<div class="img_edit_item img_item-1">
+						<figure>
+							<img src="data:;base64,{{img.img}}">
+							<figcaption>
+								<b onclick="$('.img_item-1').toggle(); $('#img_item-1').val('delete')" >Excluir</b>
+							</figcaption>
+						</figure>
+					</div>
+						<input type="num" id="img_item-1" name="img-del" style="display:none;">
+				{% endif %}
+			{% endif %}
 		</div>
 		<br><br>
 		<button class="form-control btn btn-outline-success">Salvar</button>

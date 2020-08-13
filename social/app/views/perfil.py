@@ -17,6 +17,9 @@ from app.model.post import Post
 from app.model.ImgPost import ImgPost
 
 from app.model.reacoes import Reacoes
+from app.model.reacoes import ReacoesComm
+
+from app.model.ImgPost import ImgComm
 from app.model.comentario import Comentario
 
 
@@ -47,6 +50,22 @@ def perfil(id,nome):
 		user = User.query.filter_by(id=session['user_id']).first()
 		img = UserImg.query.filter_by(id_user=user.id).first()
 		user.img = base64.b64encode(img.imagem).decode('ascii')
+		
+		
+		
+	if user:
+		listSol = []
+		sols = Sl.query.filter_by(id_re=user.id).all()
+		for sol in sols:
+			usu = User.query.filter_by(id=sol.id_en).first()
+			usuImg = UserImg.query.filter_by(id_user=usu.id).first()
+			listSol.append({
+				'user':usu,
+				'img':base64.b64encode(usuImg.imagem).decode('ascii')
+			})
+		user.solsLen = len(listSol)
+		user.sols = listSol	
+		
 		
 		
 		
@@ -83,12 +102,12 @@ def perfil(id,nome):
 		for imgP in imgPs:
 			if imgP.id_post in listCommI:
 				listCommI[imgP.id_post].append(
-					base64.b64encode(imgP.imagem_dt).decode('ascii')
+					base64.b64encode(imgP.imagem).decode('ascii')
 				)
 					
 			else:
 				listCommI[imgP.id_post] = [
-					base64.b64encode(imgP.imagem_dt).decode('ascii')
+					base64.b64encode(imgP.imagem).decode('ascii')
 				]
 		
 		post.imgs = listCommI
@@ -103,15 +122,36 @@ def perfil(id,nome):
 		
 		listComm=[]
 		comms = Comentario.query.filter_by(id_post=post.id).all()
-		for comm in comms:
-			user_comm = User.query.filter_by(id=comm.id_user).first()
-			img = UserImg.query.filter_by(id_user=user_comm.id).first()
-			user_comm.img = base64.b64encode(img.imagem).decode('ascii')
-			
-			
-			listComm.append({'data':comm.data,'body':comm.body,'id':comm.id,
-				'id_post':comm.id_post,'user':user_comm})
-	
+		if comms:
+			for comm in comms:
+				user_comm = User.query.filter_by(id=comm.id_user).first()
+				img = UserImg.query.filter_by(id_user=user_comm.id).first()
+				user_comm.img = base64.b64encode(img.imagem).decode('ascii')
+				
+				comm_img = ImgComm.query.filter_by(id_comm=comm.id).first()
+				
+				reacs = []
+				liked = False
+				reacao = ReacoesComm.query.filter_by(id_comm=comm.id).all()
+				if reacao:
+					for re in reacao:
+						if user:
+							if user.id == re.id_user:
+								liked=True
+								
+						reacs.append({
+							'data':re.data,
+							'id_comm':re.id_comm,
+							'user':User.query.filter_by(id=re.id_user).first(),
+						})
+					
+				listComm.append({'data':comm.data,'body':comm.body,'id':comm.id,
+					'id_post':comm.id_post,'user':user_comm,
+					'reactLen':len(reacs),'reacs':reacs,
+					'Liked':liked,
+					'img':base64.b64encode(comm_img.imagem).decode('ascii') if comm_img else False
+				})
+				
 		post.commLen = len(listComm)
 		post.comm = listComm
 	
@@ -119,19 +159,22 @@ def perfil(id,nome):
 	
 	
 		reacs = []
+		liked = False
 		reacao = Reacoes.query.filter_by(id_post=post.id).all()
 		for re in reacao:
-			reacs.append({
-				'data':re.data,
-				'post':re.id_post,
-				'user':User.query.filter_by(id=re.id_user).first(),
-			})
 			if user:
 				if user.id == re.id_user:
-					post.Liked = True
+					liked = True
+			if re:
+				reacs.append({
+					'data':re.data,
+					'id_post':re.id_post,
+					'user':User.query.filter_by(id=re.id_user).first(),
+				})
 		
 		post.reactLen = len(reacs)
 		post.reacs = reacs
+		post.Liked = liked
 		
 	posts.reverse()
 	

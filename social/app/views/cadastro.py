@@ -15,9 +15,6 @@ def cadastro():
 		return redirect('/')
 		
 	if request.method.upper() == 'POST':
-		#tel = request.form['tel']
-		#data = request.form['data']
-		#username = request.form['username']
 		nome = request.form['nome'].title()
 		sexo = request.form['sexo']
 		email = request.form['email']

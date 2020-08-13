@@ -9,26 +9,41 @@ class ImgPost(db.Model):
 	__tablename__='imgPost'
 	
 	id = db.Column(db.Integer,primary_key=True)
-	id_post = db.Column(db.Integer,db.ForeignKey('post.id'),nullable=False)
-	data_upl = db.Column(db.DateTime,nullable=False)
-	imagem_dt = db.Column(db.BLOB,nullable=False)
-	post = db.relationship('Post')
+	data = db.Column(db.DateTime,nullable=False)
+	imagem = db.Column(db.BLOB,nullable=False)
+	id_post = db.Column(db.Integer,nullable=False)
+	
 	
 	
 	def __init__(self,post_id,imagem):
+		
+		self.data = datetime.now()
+		self.imagem = imagem.read()
 		self.id_post = post_id
-		self.data_upl = datetime.now()
-		self.imagem_dt = imagem.read()
+		
 		
 	def __repr__(self):
 		return f"<Imagem: post n° {self.id}>"
 
-class ImgPostSchema(ma.SQLAlchemyAutoSchema):
-	class Meta:
-		model = ImgPost
-		include_fk = True
 
 
-
-imgSchema = ImgPostSchema()
-imgs_Schema = ImgPostSchema(many=True)
+class ImgComm(db.Model):
+	
+	__tablename__='imgComm'
+	
+	id = db.Column(db.Integer,primary_key=True)
+	data = db.Column(db.DateTime,nullable=False)
+	imagem = db.Column(db.BLOB,nullable=False)
+	id_comm = db.Column(db.Integer,nullable=False)
+	
+	
+	
+	def __init__(self,id_comm,imagem):
+		
+		self.data = datetime.now()
+		self.imagem = imagem.read()
+		self.id_comm = id_comm
+		
+		
+	def __repr__(self):
+		return f"<Imagem: comentário n° {self.id}>"

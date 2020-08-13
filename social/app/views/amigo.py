@@ -26,17 +26,17 @@ def sol(re):
 	conf = Sl.query.filter_by(id_en=user1.id,id_re=user2.id).first()
 	conf2 = Sl.query.filter_by(id_en=user2.id,id_re=user1.id).first()
 	if conf:
-		return redirect(f'/perfil/{re}/')
+		return redirect(f'/{re}/{user2.nome.split()[0]}/')
 		
 	if conf2:
-		return redirect(f'/perfil/{re}/')
+		return redirect(f'/{re}/{user2.nome.split()[0]}/')
 	if user1 and user2:
 		soli = Sl(id_en=user1.id,id_re=user2.id)
 		current_app.db.session.add(soli)
 		current_app.db.session.commit()
-		return redirect(f'/perfil/{re}/')
+		return redirect(f'/{re}/{user2.nome.split()[0]}/')
 	else:
-		return redirect(f'/perfil/{re}/')
+		return redirect(f'/{re}/{user2.nome.split()[0]}/')
 
 
 def ami(re):
@@ -106,6 +106,8 @@ def des_ami(re):
 		current_app.db.session.commit()
 	
 	return redirect('/')
+
+
 
 
 

@@ -13,7 +13,7 @@ Perfil - {{user_local.nome}}
 		<hr>
 		<b>Informações</b><br>
 		{%if user.id == user_local.id %}
-		<a class="btn btn-outline-warning" href="/perfil/{{user.id}}/editar/">
+		<a class="btn btn-outline-warning" href="/{{user.id}}/{{user.nome.split()[0]}}/editar/">
 			Editar Informações
 		</a><br>
 		{% endif %}
@@ -26,14 +26,19 @@ Perfil - {{user_local.nome}}
 		{%if user_local.sexo != 'o' %}
 			Sexo: {% if user_local.sexo == 'f' %} Feminino {% else %} Masculino {% endif %}
 		{% endif %}
-		<hr>
 	</div>
 		{% if user %}
 			{% if user_local.id != user.id %}
 				{% if user.amigo %}
 					<br>
-					<sup>AMIGO✓</sup>
-					<a class="btn btn-outline-danger" href="/amizade/desfazer/{{user_local.id}}/">
+					<sup onclick="$('#des_ami').toggle()">
+						✓ AMIGO desde 
+						{{user.amigo.data.day}} /
+						{{user.amigo.data.month}} /
+						{{user.amigo.data.year}}
+					</sup>
+					<br>
+					<a id="des_ami" style="display:none;" class="btn btn-outline-danger" href="/amizade/desfazer/{{user_local.id}}/">
 						Desfazer Amizade
 					</a>
 				{% elif user.Sol %}
@@ -57,6 +62,7 @@ Perfil - {{user_local.nome}}
 				{% endif %}
 			{% endif %}
 		{% endif %}
+		<hr>
 {% include "b_index.html" %}
 </div>
 {% endblock conteudo %}
