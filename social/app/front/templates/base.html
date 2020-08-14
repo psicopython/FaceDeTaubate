@@ -4,34 +4,32 @@
 	
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<title>{% block titulo %}{% endblock titulo %}</title>
+		
 		<link rel="stylesheet" href="{{url_for('static',filename='css/custom.css')}}">
 		<link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
-          
+		
+		<title>{% block titulo %}{% endblock titulo %}</title>
+	
 	</head>
 
 	<body>
-		
-		
 		{% if user_local%}
-		 <div class="cabecalho">
-			<figure>
-				{% if user_local.img %}
-					<img id="perfil_img" src="data:;base64,{{user_local.img}}">
-				{% else %}
-					<img src="{{url_for('static',filename='img/perfil/img_user_m.jpg')}}">
-				{% endif %}
-				<figcaption class="flex">
-					<h2>{{user_local.nome.split()[0]}}</h2>
-				</figcaption>
-			</figure>
-		</div>
+			 <div class="cabecalho">
+				<figure>
+					{% if user_local.img %}
+						<img id="perfil_img_orig" src="data:;base64,{{user_local.img}}">
+						<img id="perfil_img" src="" style="display:none;">
+					{% else %}
+						<img src="{{url_for('static',filename='img/perfil/img_user_m.jpg')}}">
+					{% endif %}
+					<figcaption class="flex">
+						<h2>{{user_local.nome}}</h2>
+					</figcaption>
+				</figure>
+			</div>
 		{% endif %}
-	
-	
-	
 		<nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<a class="navbar-brand" href="/">DeepWebSocial</a>
+			<a class="navbar-brand" href="/">Rede Social</a>
 		
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -40,11 +38,11 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="{{url_for('webui.index')}}">Home </a>
+						<a class="nav-link" href="{{url_for('webui.index')}}">Home</a>
 					</li>
 					{% if user %}
 						<li class="nav-item">
-							<a class="nav-link" href="/{{user.id}}/{{user.nome.split()[0].lower()}}/">{{user.nome}}</a>
+							<a class="nav-link" href="/{{user.id}}/{{user.nome.replace(' ','_')}}/">{{user.nome}}</a>
 						</li>
 						{% if user.solsLen %}
 						<li class="nav-item">
@@ -53,32 +51,34 @@
 							<div class="publicacoes solicitacao" style="display:none;">
 								<b>Solicitações</b>
 								<ul>
-										
-								{% for sol in user.sols %}
-									<li><a href="/{{sol.user.id}}/{{sol.user.nome.replace(' ','_')}}/">
-										{{sol.user.nome }}<br>
-									</a>
-										<a class="btn btn-outline-primary" href="/amizade/responder/{{sol.user.id}}/">Aceitar</a> 
-										<a class="btn btn-outline-danger" href="/amizade/cancelar_solicitacao/{{sol.user.id}}/">Recusar</a>
-									</li>
-								{% endfor %}
+									{% for sol in user.sols %}
+										<li>
+											<a href="/{{sol.user.id}}/{{sol.user.nome.replace(' ','_')}}/">
+												{{sol.user.nome }}<br>
+											</a>
+											<a class="btn btn-outline-primary" href="/amizade/responder/{{sol.user.id}}/">
+												Aceitar
+											</a> 
+											<a class="btn btn-outline-danger" href="/amizade/cancelar_solicitacao/{{sol.user.id}}/">
+												Recusar
+											</a>
+										</li>
+									{% endfor %}
 								</ul>
 							</div>
 						</li>
 						{% else %}
-						<li class="nav-item">
+						<div class="nav-item">
 							<a class="nav-link sol_vazio" onclick="$('.sol_vazio').toggle()">Solicitações (0)</a>
-							<a class="nav-link sol_vazio" onclick="$('.sol_vazio').toggle()" style="display:none;">Fechar</a>
-							<li class="nav-item sol_vazio publicacoes" style="display:none;">
+							<a class="nav-link sol_vazio" onclick="$('.sol_vazio').toggle()" style="display:none;">Ocultar</a>
+							<a class="nav-item sol_vazio publicacoes" style="display:none;">
 								<i>Nenhuma Solicitação</i>
-							</li>
-						</li>
+							</a>
+						</div>
 						{% endif %}
-						
 						<li class="nav-item">
 							<a class="nav-link" href="{{url_for('webui.logout')}}">Sair</a>
 						</li>
-						
 					{% else %}
 						<li class="nav-item">
 							<a class="nav-link" href="{{url_for('webui.cadastro')}}">Cadastro</a>
@@ -90,51 +90,53 @@
 				</ul>
 			</div>
 		</nav>
-		{% if user %}
-		<br>
-		<div class=" container flex">
-			<div class="cp add_post flex">
-				
-				<a onclick="$('.add_post').toggle()">
-					No que você está pensando, {{user.nome.split()[0]}} ?
-				</a>
+		{% if user and not request.path == '/'+user.id|string+'/'+user.nome.replace(' ','_')|string+'/editar/'%}
+			{% if user.solsLen > 0 %}
+			<div class="flex">
+				<div id="div_sol_alert" class="alert alert-success">
+					<span class="miniatura" onclick="$('#div_sol_alert').hide()"> X </span><br>
+					<a onclick="$('#sol_alert').toggle()">novas Solicitações de amizade</a><br>
+					<span id="sol_alert" style="display:none;">Abra o menu para visualizá-las</span>
+				</div>
 			</div>
-		</div>
+			{% endif %}
+			<br>
+			<div class=" container flex">
+				<div class="cp add_post flex">
+					<a onclick="$('.add_post').toggle()" href="#new_post">
+						No que você está pensando, {{user.nome.split()[0]}} ?
+					</a>
+				</div>
+			</div>
 		{% endif %}
 		
-		{% block conteudo %}{% endblock conteudo %}
-	
-	
-	
+		{% block conteudo %}
+		{% endblock conteudo %}
+		
 		{% if user %}
-		<div class=" cpost add_post" style="display:none;">
-		<a style="display:none;" class="add_post" onclick="$('.add_post').toggle()">X</a>
-		<br>
-		<br>
-			
+		<div id="new_post" class=" cpost add_post" style="display:none;">
+			<a style="display:none;" class="add_post" onclick="$('.add_post').toggle()">X</a>
+			<br><br>
 			{% with mensagem = get_flashed_messages() %}
 				{% if mensagem %}
 					{% for msg in mensagem%}
-					<p class="alert alert-danger">{{msg}}</p>
+						<p class="alert alert-danger">{{msg}}</p>
 					{% endfor %}
 				{% endif %}
 			{% endwith %}
-
-			<form method="post" class=""
+			<form method="post"
 				action="{{url_for('webui.post')}}" enctype="multipart/form-data">
-				
-					<textarea rows="5" class="form-control" placeholder="No que esta pensando?" name="body"></textarea>
-					<br>
-					
-					<label class="" for="input-file">
-						<b class="btn btn-outline-dark">
-							carregar foto
-						</b>
-					</label>
-					<div class="img_preview img_edit"></div>
-				
+				<textarea rows="5" class="form-control" placeholder="No que esta pensando?" name="body"></textarea>
+				<br>
+				<label class="" for="input-file">
+					<b class="btn btn-outline-dark">
+						carregar foto
+					</b>
+				</label>
+				<div class="img_preview img_edit"></div>
 				<input id="input-file" class="form-control-file" type="file"
-					accept="image/*" name="img" multiple style="display:none;"><br>
+				accept="image/*" name="img" multiple style="display:none;">
+				<br>
 				<div id="preview">
 					
 				</div>

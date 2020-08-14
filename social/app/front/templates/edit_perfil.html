@@ -19,42 +19,56 @@ Editar Perfil
 			</div>
 		{% endif %}
 	{% endwith %}
+	<div class="flex">
+		<div id="alert_campo" class="alert alert-success">
+			<a onclick="$('#alert_campo').hide()">Fechar</a>
+			<p>Preencher apenas os campos que queira modificar</p>
+			<p>REPITO:</p>
+			<p>Se não quiser alterar um campo, deixe em branco</p>
+			<p>Para cancelar o envio da foto,<wbr> bata clicar no botão img e não selecionar foto alguma</p>
+		</div>
+	</div>
 	
 	<form action="/{{user_local.id}}/{{user_local.nome.split()[0]}}/editar/"
 		enctype="multipart/form-data" method="post">
 		
 		
 		<br>
-		<label for="nome" onclick="$('#nome').toggle()">Nome</label>
-		<input class="form-control" style="display:none;" id="nome" type="text" name="nome" placeholder="Novo nome">
+		<label class="form-control btn-outline-primary nome" for="nome" onclick="$('.nome').toggle().val('')">Nome</label>
+		<label class="form-control btn-primary nome" style="display:none;" for="nome" onclick="$('.nome').toggle().val('')">Cancelar</label>
+		<input class="form-control nome" style="display:none;" type="text" name="nome" placeholder="Novo nome">
 		
+		<br>
 		
 		<div id="perfil_img_label" class="flex" ></div>
 		
-		<b onclick="$('#btn-foto').toggle()">Foto de perfil</b>
+	
+		<label id="btn-foto" class="form-control btn-outline-info" for="new_img" >img</label>
 		<br>
-		<label style="display:none;" id="btn-foto" class="form-control btn btn-outline-info" for="new_img" >img</label>
 		<input style="display:none;" id="new_img" type="file" accept="image/*" name="img">
 		
 		<br>
 		
-		<label for="email" onclick="$('.email').toggle()">Email</label>
+		<label class="form-control btn-outline-primary email" for="email" onclick="$('.email').toggle().val('')">Email</label>
+		<label style="display:none;" class="form-control btn btn-primary email" for="email" onclick="$('.email').toggle().val('')">Cancelar</label>
 		<input style="display:none;" class="form-control email" id="email" class="email" type="email" name="email1" placeholder="novo email">
 		<br>
 		<input style="display:none;" class="form-control email" type="email" name="email2" placeholder="repita o novo email">
 	
 		<br>
+		<label class="form-control btn-outline-primary senha" for="senha" onclick="$('.senha').toggle().val('')">Senha</label>
+		<label style="display:none;" class="form-control btn btn-primary senha" for="senha" onclick="$('.senha').toggle().val('')">Cancelar</label>
 	
-		<label for="senha" onclick="$('.senha').toggle()">Senha</label>
 		<input style="display:none;" class="form-control senha" id="senha" type="password" name="senha1" placeholder="nova senha">
 		<br>
 		<input style="display:none;" class="form-control senha" type="password" name="senha2" placeholder="repita a nova senha">
 		
 		<br>
 	
-		<label for="sexo" onclick="$('#sexo').toggle()">Sexo</label>
+		<label class="form-control btn-outline-primary sexo" for="sexo" onclick="$('.sexo').toggle().val('')">Sexo</label>
+		<label style="display:none;" class="form-control btn-primary sexo" for="sexo" onclick="$('.sexo').toggle().val('')">Cancelar</label>
 		<br>
-		<select id="sexo" name="sexo" style="display:none;">
+		<select class="btn btn-outline-info flex sexo" name="sexo" style="display:none;">
 			<option class="form-control" value="">Sexo</option>
 			<option class="form-control" value="f">Feminino</option>
 			<option class="form-control" value="m">Masculino</option>
@@ -71,5 +85,8 @@ Editar Perfil
 		<button type="submit" class="form-control btn btn-outline-success">Salvar</button>
 		
 	</form>
+	<br>
+	<br>
+	<br>
 </div>
 {% endblock conteudo %}

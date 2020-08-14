@@ -1,252 +1,199 @@
-
-
-
+	
 {% block conteudo %}
-<div id="section" class="conteiner">
-	{% if user %}
-	
-	
-
-		
-		
-	{% endif %}
-	<br><br>
-	{% for post in posts %}
-	<div class="publicacoes">
-	<hr>
-		<div class="">
-		{%if user %}
-				
-				
-			{% if user.id == post.user.id %}
-			<span class="editar-{{post.id}}-post" onclick="$('.editar-{{post.id}}-post').toggle()">...</span>
-			<span class="editar-{{post.id}}-post" onclick="$('.editar-{{post.id}}-post').toggle()" style="display:none;">X</span>
-			{#	
-				<div  style="display:none;" class="editar-{{post.id}}-post publicacoes-config">
-					<a class="btn btn-outline-warning" href="/editar/post/{{post.id}}/">Editar</a>
-					<a class="btn btn-outline-danger" href="/excluir/post/{{post.id}}/">excluir</a>
-				</div>
-			#}
-			{% endif %}
-					
-
-				
-				
-		{% endif %}
-		</div>
-			
-			
-			
-		<div>
-			<h3>
-				<a href="/{{post.user.id}}/{{post.user.nome.replace(' ','_')}}/">
-				{% if post.user.img %}
-					<img class="miniatura" src="data:;base64,{{post.user.img}}">
-				{% endif %}
-				{{post.user.nome.split()[0]}}
-				</a>
-			</h3>
-			<sup>
-				{{post.data.day }}/{{post.data.month }}/{{post.data.year }} às {{post.data.hour }}:{{post.data.minute }}
-			</sup><br>
-			<pre><i style="max-width:50%;">{{post.body}}</i></pre>
-		</div>
-			
-			
-			
-		<div class="carousel slide" data-ride="carousel">
-		 	<div class="carousel-inner">
-			{% for img in post.imgs[post.id]%}
-				{% if img %}
-					{% if img == post.imgs[post.id][0]%}
-				 		<div class="carousel-item active">
-							<img class="d-block w-100" src="data:;base64,{{img}}">
-						</div>
-					{% else %}
-				 		<div class="carousel-item">
-							<img class="d-block w-100"  src="data:;base64,{{img}}">
-						</div>
-					{% endif %}
-				{% endif %}
-			{% endfor %}
-			</div>
-		</div>
-			
-		{%if user %}
-		<div>
-			{% if post.Liked %}
-			<br>
-				<a class="btn btn-primary" href="/post/unlike/{{post.id}}/">
-					{% if post.reactLen < 2 %}
-						{{post.reactLen}} like
-					{% else %}
-						{{post.reactLen}} likes 
-					{% endif %}
-				</a>
-			{% else %}
-			<br>
-				<a class="btn btn-outline-primary" href="/post/like/{{post.id}}/">
-				{% if post.reactLen < 2 %}
-					{{post.reactLen}} like
-				{% else %}
-					{{post.reactLen}} likes 
-				{% endif %}
-				</a>
-			{% endif %}
-			<span  onclick="$('#comentario-{{post.id}}').toggle()">
-				{% if post.commLen > 0 %}
-					{{post.commLen}}
-					{% if post.commLen  < 2 %} 
-						Comentário
-					{% else %}
-						Comentários
-					{% endif %}
-				{% endif%}
-			</span>
-		</div>
-		{% else %}
-		<br>
-			<span class="btn btn-dark">
-				{% if post.reactLen < 2 %}
-					{{post.reactLen}} like
-				{% else %}
-					{{post.reactLen}} likes 
-				{% endif %}
-			</span>
-			<span  onclick="$('#comentario-{{post.id}}').toggle()">
-				{% if post.commLen == 0 %}
-					Nenhum
-				{% else %}
-					{{post.commLen}}
-				{% endif%}
-				{% if post.commLen  < 2 %}
-					Comentário
-				{% else %} 
-					Comentários 
-				{% endif %}
-			</span>
-		{% endif %}
-			
-				<br>
-			
-		{% if post.comm %}
-		<div id="comentario-{{post.id}}" class="publicacoes" style="display:none;">
+	<div id="section" class="conteiner">
+		<br><br>
+		{% for post in posts %}
+			<div class="publicacoes">
 			<hr>
-			{% for comm in post.comm %}
-			<div class="conteiner comentarios bg-info">
-				{% if user %}
-					{% if user.id == comm.user.id %}
-						
-					<span class="editar-{{comm.id}}-comm" onclick="$('.editar-{{comm.id}}-comm').toggle(1000)">...</span>
-					<span class="editar-{{comm.id}}-comm" onclick="$('.editar-{{comm.id}}-comm').toggle(1000)" style="display:none;">X</span>
-					
-				{#	<div  style="display:none;" class="editar-{{comm.id}}-comm comentario-config">
-						<a class="btn btn-outline-warning" href="/editar/comm/{{comm.id}}/">Editar</a>
-						<a class="btn btn-outline-danger" href="/excluir/comm/{{comm.id}}/">excluir</a>
-					</div>
-				#}
-					
-					{% endif %}
-				{% endif %}
-				
-				<span>
-				<p>
-				{%if comm.user.img %}<img class="miniatura" src="data:;base64,{{ comm.user.img }}">{%endif%}
-					<a href="/{{comm.user.id}}/{{comm.user.nome.replace(' ','_')}}/">
-						{{ comm.user.nome.split()[0]}} {% if comm.user.nome.split()|length > 1 %}{{ comm.user.nome.split()[-1][:5]}}...{% endif %}
-					</a>
-					{% if comm.user.id == post.id_user %}
-						<sup>autor</sup>
-					{% endif %}
-				</span>
-				<sup><i><br>
-					{{post.data.day }}/{{post.data.month }}/{{post.data.year }} às {{post.data.hour }}:{{post.data.minute }}
-				</i></sup>
-					
-					
-				
-				</p>
-				<pre><i>{{comm.body}}</i></pre>
-				{% if comm.img %}
 				<div>
-					<img src="data:;base64,{{comm.img}}">
-				</div>
-				{% endif %}
-				<div>
-					{% if comm.reacs %}
-						<br>
-						{% if comm.Liked %}
-							<a class="btn btn-primary" href="/comentario/unlike/{{comm.id}}/">
-								
-								{% if comm.reactLen < 2 %}
-									{{ comm.reactLen}} like
-								{% else %}
-									{{ comm.reactLen}} likes 
-								{% endif %}
-								
-							</a>
-						{% else %}
-							<a class="btn btn-outline-primary" href="/comentario/like/{{comm.id}}/">
-						
-								{% if comm.reactLen < 2%}
-									{{ comm.reactLen}} like
-								{% else %}
-									{{ comm.reactLen}} likes 
-								{% endif %}
-							</a>
+					{%if user %}
+						{% if user.id == post.user.id %}
+						<span class="editar-{{post.id}}-post" onclick="$('.editar-{{post.id}}-post').toggle()">...</span>
+						<span class="editar-{{post.id}}-post" onclick="$('.editar-{{post.id}}-post').toggle()" style="display:none;">X</span>
 						{% endif %}
-					{% else %}
-						<a class="btn btn-outline-primary" href="/comentario/like/{{comm.id}}/">
-					
-							{% if comm.reactLen < 2%}
-								{{ comm.reactLen}} like
+					{% endif %}
+				</div>
+				<div>
+					<h3>
+						<a href="/{{post.user.id}}/{{post.user.nome.replace(' ','_')}}/">
+							{% if post.user.img %}
+								<img class="miniatura" src="data:;base64,{{post.user.img}}">
+							{% endif %}
+							{{post.user.nome.split()[0]}}
+						</a>
+					</h3>
+					<sup>
+						{{post.data.day }}/{{post.data.month }}/{{post.data.year }} às {{post.data.hour }}:{{post.data.minute }}
+					</sup><br>
+					<pre><i style="max-width:50%;">{{post.body}}</i></pre>
+				</div>
+				<div class="carousel slide" data-ride="carousel">
+				 	<div class="carousel-inner">
+						{% for img in post.imgs[post.id]%}
+							{% if img %}
+								{% if img == post.imgs[post.id][0]%}
+							 		<div class="carousel-item active">
+										<img class="d-block w-100" src="data:;base64,{{img}}">
+									</div>
+								{% else %}
+							 		<div class="carousel-item">
+										<img class="d-block w-100"  src="data:;base64,{{img}}">
+									</div>
+								{% endif %}
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+				<br>
+				{%if user %}
+				<div>
+					{% if post.Liked %}
+						<a class="btn btn-primary" href="/post/unlike/{{post.id}}/">
+							{% if post.reactLen < 2 %}
+								{{post.reactLen}} like
 							{% else %}
-								{{ comm.reactLen}} likes 
+								{{post.reactLen}} likes 
+							{% endif %}
+						</a>
+					{% else %}
+						<a class="btn btn-outline-primary" href="/post/like/{{post.id}}/">
+							{% if post.reactLen < 2 %}
+								{{post.reactLen}} like
+							{% else %}
+								{{post.reactLen}} likes 
 							{% endif %}
 						</a>
 					{% endif %}
+					{% if post.commLen > 0 %}
+						<span class="btn btn-outline-info" onclick="$('#comentario-{{post.id}}').toggle()">
+							{{post.commLen}}
+							{% if post.commLen  < 2 %} 
+								Comentário
+							{% else %}
+								Comentários
+							{% endif %}
+						</span>
+					{% endif%}
 				</div>
-				
-				{% if user %}
-					{% if user.id == comm.user.id %}
+				{% else %}
+					<span class="btn btn-dark">
+						{% if post.reactLen < 2 %}
+							{{post.reactLen}} like
+						{% else %}
+							{{post.reactLen}} likes 
+						{% endif %}
+					</span>
+					<span  onclick="$('#comentario-{{post.id}}').toggle()">
+						{% if post.commLen == 0 %}
+							Nenhum
+						{% else %}
+							{{post.commLen}}
+						{% endif%}
+						{% if post.commLen  < 2 %}
+							Comentário
+						{% else %} 
+							Comentários 
+						{% endif %}
+					</span>
+				{% endif %}
 					
-					<div  style="display:none;" class="editar-{{comm.id}}-comm comentario-config">
-						<a class="btn btn-outline-warning" href="/editar/comm/{{comm.id}}/">Editar</a>
-						<a class="btn btn-outline-danger" href="/excluir/comm/{{comm.id}}/">excluir</a>
+				<br>
+					
+				{% if post.comm %}
+					<div id="comentario-{{post.id}}" class="publicacoes" style="display:none;">
+						<hr>
+						{% for comm in post.comm %}
+							<div class="conteiner comentarios bg-info">
+								{% if user %}
+									{% if user.id == comm.user.id %}
+										<span class="editar-{{comm.id}}-comm" onclick="$('.editar-{{comm.id}}-comm').toggle(1000)">...</span>
+										<span class="editar-{{comm.id}}-comm" onclick="$('.editar-{{comm.id}}-comm').toggle(1000)" style="display:none;">X</span>
+									{% endif %}
+								{% endif %}
+								
+								<div>
+									<p>
+										{%if comm.user.img %}<img class="miniatura" src="data:;base64,{{ comm.user.img }}">{%endif%}
+										<a href="/{{comm.user.id}}/{{comm.user.nome.replace(' ','_')}}/">
+											{{ comm.user.nome.split()[0]}} {% if comm.user.nome.split()|length > 1 %}{{ comm.user.nome.split()[-1][:5]}}...{% endif %}
+										</a>
+										{% if comm.user.id == post.id_user %}
+											<sup>autor</sup>
+										{% endif %}
+										<sup><i><br>
+											{{post.data.day }}/{{post.data.month }}/{{post.data.year }} às {{post.data.hour }}:{{post.data.minute }}
+										</i></sup>
+									</p>
+								</div>
+								<pre><i>{{comm.body}}</i></pre>
+								{% if comm.img %}
+									<div>
+										<img src="data:;base64,{{comm.img}}">
+									</div>
+								{% endif %}
+								<div>
+									<br>
+									{% if comm.reacs %}
+										{% if comm.Liked %}
+											<a class="btn btn-primary" href="/comentario/unlike/{{comm.id}}/">
+												{% if comm.reactLen < 2 %}
+													{{ comm.reactLen}} like
+												{% else %}
+													{{ comm.reactLen}} likes 
+												{% endif %}
+											</a>
+										{% else %}
+											<a class="btn btn-outline-primary" href="/comentario/like/{{comm.id}}/">
+												{% if comm.reactLen < 2%}
+													{{ comm.reactLen}} like
+												{% else %}
+													{{ comm.reactLen}} likes 
+												{% endif %}
+											</a>
+										{% endif %}
+									{% else %}
+										<a class="btn btn-outline-primary" href="/comentario/like/{{comm.id}}/">
+											{% if comm.reactLen < 2%}
+												{{ comm.reactLen}} like
+											{% else %}
+												{{ comm.reactLen}} likes 
+											{% endif %}
+										</a>
+									{% endif %}
+								</div>
+								
+								{% if user %}
+									{% if user.id == comm.user.id %}
+										<div  style="display:none;" class="editar-{{comm.id}}-comm comentario-config">
+											<a class="btn btn-outline-warning" href="/editar/comm/{{comm.id}}/">Editar</a>
+											<a class="btn btn-outline-danger" href="/excluir/comm/{{comm.id}}/">excluir</a>
+										</div>
+									{% endif %}
+								{% endif %}
+							</div>
+						{% endfor %}
+						<hr>
 					</div>
+				{% endif%}
+				{% if user %}
+					<form action="/comentario/post/{{post.id}}/" enctype="multipart/form-data" method="post">
+						<br>
+						<textarea  type="text" name="body" class="form-control" placeholder="comentario"></textarea><br>
+						
+						<input type="submit" class="btn btn-primary" value="Comentar">
+						<label for="input-file-{{post.id}}"><b class="btn btn-outline-dark">Imagem</b></label>
 					
-					{% endif %}
+						<input id="input-file-{{post.id}}" name="img" type="file" accept="Image/*" style="display:none;">
+					</form>
+				{% endif %}
+				{% if user.id == post.user.id %}
+					<div  style="display:none;" class="editar-{{post.id}}-post publicacoes-config">
+						<a class="btn btn-outline-warning" href="/editar/post/{{post.id}}/">Editar</a>
+						<a class="btn btn-outline-danger" href="/excluir/post/{{post.id}}/">excluir</a>
+					</div>
 				{% endif %}
 			</div>
-			{% endfor %}
-			<hr>
-		</div>
-		{% endif%}
-			
-			
-			
-		{% if user %}
-		<form action="/comentario/post/{{post.id}}/" enctype="multipart/form-data" method="post">
-			<textarea  type="text" name="body" class="form-control" placeholder="comentario"></textarea><br>
-			
-			<input type="submit" class="btn btn-primary" value="Comentar">
-			<label for="input-file-{{post.id}}"><b class="btn btn-outline-dark">Imagem</b></label>
-		
-			<input id="input-file-{{post.id}}" name="img" type="file" accept="Image/*" style="display:none;">
-		</form>
-		{% endif %}
-		
-		{% if user.id == post.user.id %}
-		<div  style="display:none;" class="editar-{{post.id}}-post publicacoes-config">
-			<a class="btn btn-outline-warning" href="/editar/post/{{post.id}}/">Editar</a>
-			<a class="btn btn-outline-danger" href="/excluir/post/{{post.id}}/">excluir</a>
-		</div>
-		{% endif %}
-					
-		
+		<hr>
+		{% endfor %}
 	</div>
-	<hr>
-	{% endfor %}
-	
-</div>
 {% endblock conteudo %}

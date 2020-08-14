@@ -1,67 +1,73 @@
 {% extends 'base.html' %}
 
 {% block titulo %}
-Perfil - {{user_local.nome}}
+	{{user_local.nome}}
 {% endblock titulo %}
 
 {% block conteudo %}
-
-
 <div class="conteiner">
-	
 	<div>
 		<hr>
 		<b>Informações</b><br>
 		{%if user.id == user_local.id %}
-		<a class="btn btn-outline-warning" href="/{{user.id}}/{{user.nome.split()[0]}}/editar/">
-			Editar Informações
-		</a><br>
+			<a class="btn btn-outline-warning" href="/{{user.id}}/{{user.nome.split()[0]}}/editar/">
+				Editar Informações
+			</a><br>
 		{% endif %}
-		Amigos: {{user_local.lenAmigos}}
-		<br>
-		Email:  {{user_local.email}}
-		<br>
-		Nome :  {{user_local.nome}}
-		<br>
-		{%if user_local.sexo != 'o' %}
-			Sexo: {% if user_local.sexo == 'f' %} Feminino {% else %} Masculino {% endif %}
-		{% endif %}
-	</div>
-		{% if user %}
-			{% if user_local.id != user.id %}
-				{% if user.amigo %}
-					<br>
-					<sup onclick="$('#des_ami').toggle()">
-						✓ AMIGO desde 
-						{{user.amigo.data.day}}/{{user.amigo.data.month}}/{{user.amigo.data.year}}
-					</sup>
-					<br>
-					<a id="des_ami" style="display:none;" class="btn btn-outline-danger" href="/amizade/desfazer/{{user_local.id}}/">
-						Desfazer Amizade
-					</a>
-				{% elif user.Sol %}
-					{% if user.Sol == 'env' %}
-						<a class="btn btn-outline-success" href="/amizade/responder/{{user_local.id}}/">
-							Aceitar Solicitação
-						</a><br>
-						<a class="btn btn-outline-danger" href="/amizade/cancelar_solicitacao/{{user_local.id}}/">
-							Recusar Solicitação
-						</a>
-					{% else %}
-						<a class="btn btn-outline-warning" href="/amizade/cancelar_solicitacao/{{user_local.id}}/">
-							Cancelar Solicitação
-						</a>
-					{% endif %}
+		<span>
+			Amigos:{{user_local.lenAmigos}}<br>
+		</span>
+		<span>
+			Email: {{user_local.email}}<br>
+		</span>
+		<span>
+			Nome : {{user_local.nome}}<br>
+		</span>
+		<span>
+			{%if user_local.sexo != 'o' %}
+				Sexo:
+				{% if user_local.sexo == 'f' %}
+					Feminino 
 				{% else %}
-					<a class="btn btn-outline-primary" href="/amizade/solicitar/{{user_local.id}}/">
-						Mandar Solicitação
-					</a>
-					<br><br>
+					Masculino
 				{% endif %}
 			{% endif %}
+		</span>
+	</div>
+	{% if user %}
+		{% if user_local.id != user.id %}
+			{% if user.amigo %}
+				<br>
+				<sup onclick="$('#des_ami').toggle()">
+					✓ AMIGO desde 
+					{{user.amigo.data.day}}/{{user.amigo.data.month}}/{{user.amigo.data.year}}
+				</sup>
+				<br>
+				<a id="des_ami" style="display:none;" class="btn btn-outline-danger" href="/amizade/desfazer/{{user_local.id}}/">
+					Desfazer Amizade
+				</a>
+			{% elif user.Sol %}
+				{% if user.Sol == 'env' %}
+					<a class="btn btn-outline-success" href="/amizade/responder/{{user_local.id}}/">
+						Aceitar Solicitação
+					</a><br>
+					<a class="btn btn-outline-danger" href="/amizade/cancelar_solicitacao/{{user_local.id}}/">
+						Recusar Solicitação
+					</a>
+				{% else %}
+					<a class="btn btn-outline-warning" href="/amizade/cancelar_solicitacao/{{user_local.id}}/">
+						Cancelar Solicitação
+					</a>
+				{% endif %}
+			{% else %}
+				<a class="btn btn-outline-primary" href="/amizade/solicitar/{{user_local.id}}/">
+					Mandar Solicitação
+				</a>
+				<br><br>
+			{% endif %}
 		{% endif %}
-		<hr>
-{% include "b_index.html" %}
+	{% endif %}
+	<hr>
+	{% include "b_index.html" %}
 </div>
 {% endblock conteudo %}
-

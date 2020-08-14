@@ -14,6 +14,7 @@ def config_db(app):
 	db.init_app(app)
 	app.db = db
 	ma.init_app(app)
+	app.ma = ma
 	mi.init_app(app,app.db)
 
 
@@ -27,4 +28,3 @@ from . import ImgPost
 
 from . import reacoes
 from . import comentario
-# from . import compartilhar

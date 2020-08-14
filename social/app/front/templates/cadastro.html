@@ -18,7 +18,8 @@
 				{% endif %}
 			{% endwith %}
 			<label class="flex" for="new_img" id="perfil_img_label">
-				<img id="perfil_img" class="perfil_img" src="{{url_for('static',filename='img/perfil/user_img_m.png')}}">
+				<img id="perfil_img_orig" class="perfil_img" src="{{url_for('static',filename='img/perfil/user_img_m.png')}}">
+				<img id="perfil_img" class="perfil_img" src="" style="display:none;">
 			</label>
 			<label for="new_img" class="btn btn-outline-primary form-control">Foto Perfil</label>
 			<input id="new_img" type="file" accept="image/*" name="img" style="display:none;"

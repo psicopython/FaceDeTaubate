@@ -9,51 +9,49 @@ $(document).ready(function(){
 			$('.lab-senha').html('Mostrar Senha')
 		}
 	});
+	
 	$("#new_img").change(function() {
 	  carregar_foto_perfil(this);
 	});
-    var imagesPreview = function(input, local) {
+
+
+
+	var imagesPreview = function(input, local) {
 		$(local).empty()
-        if (input.files) {
-            var filesAmount = input.files.length;
-
-            for (i = 0; i < filesAmount; i++) {
-                var reader = new FileReader();
-
-                reader.onload = function(event) {
-                	var img = '<div class="img_edit_item" ><figure><img src="'+event.target.result+'"></figure></div>'
-						
-						
-                    $(local).append(img).appendTo(local);
-                }
-
-                reader.readAsDataURL(input.files[i]);
-            }
-        }
-
-    };
+	    if (input.files) {
+	        var filesAmount = input.files.length;
+	        for (i = 0; i < filesAmount; i++) {
+	            var reader = new FileReader();
+	            reader.onload = function(event) {
+	            	var img = '<div class="img_edit_item" ><figure><img src="'+event.target.result+'"></figure></div>'
+	                $(local).append(img);
+	            }
+	            reader.readAsDataURL(input.files[i]);
+	        }
+	    }
+	};
 
     $('#input-file').on('change', function() {
         imagesPreview(this, '.img_preview');
     });
-	
-});
-
 
 function carregar_foto_perfil(input) {
-  if (input.files && input.files[0]) {
-  	
-    var reader = new FileReader();
-    
-    reader.onload = function(e) {
-      $('#perfil_img').attr('src', e.target.result);
-	  $('#perfil_img_alert').remove()
-    }
-    reader.readAsDataURL(input.files[0]); // convert to base64 string
-  }
-   else {
-   	$('#perfil_img').attr('src','/static/img/perfil/user_img.png');
-   	$('#perfil_img_label').append('<span id="perfil_img_alert" class="alert alert-warning">Nenhuma foto selecionada!</span><br>');
+	if (input.files && input.files[0]) {
+			
+		var reader = new FileReader();
+			
+		reader.onload = function(e) {
+			$('#perfil_img_orig').toggle()
+			$('#perfil_img').attr('src', e.target.result).toggle();
+			$('#perfil_img_alert').remove()
+		}
+		reader.readAsDataURL(input.files[0]); // convert to base64 string
 	}
-   	
-   }
+	else {
+		$('#perfil_img').toggle()
+		$('#perfil_img_orig').toggle()
+		$('#perfil_img_label').append('<span id="perfil_img_alert" class="alert alert-warning">Nenhuma foto foi selecionada!</span><br>');
+	}
+}
+
+});

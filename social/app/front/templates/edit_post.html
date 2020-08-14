@@ -16,48 +16,59 @@
 				{% endfor %}
 			{% endif%}
 		{% endwith %}
-		<h4>Editar </h4>
+		<h4>Editar</h4>
 			<textarea class="form-control" name="body" placeholder="Legenda">{{post.body}}</textarea>
 		<br>
-		<label for="input-file" class="btn btn-dark">
-			Add Imagem
-		</label> 
-		<input id="input-file" type="file" accept="image/*" multiple style="display:none;" name="img"><br>
- 		
+		{% if pag == 'post' %}
+			<label for="input-file" class="btn btn-dark">
+				Add Imagem
+			</label> 
+			<input id="input-file" type="file" accept="image/*" multiple style="display:none;" name="img"><br>
+ 		{% else %}
+			<label for="input-file" class="btn btn-dark">
+				Add Imagem
+			</label> 
+			<input id="input-file" type="file" accept="image/*" style="display:none;" name="img"><br>
+ 		{% endif %}
  		<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
  			<div class="img_edit img_preview">
  				
  			</div>
  			<hr>
  			{% if pag == 'post' %}
- 			<div class="img_edit">
- 				{%if imgs %}
-				{% for img in imgs[post.id] %}
-					{% if img %}
-					<div class="img_edit_item img_item-{{img.id}}">
-						<figure>
-							<img src="data:;base64,{{img.img}}">
-							<figcaption>
-								<b onclick="$('.img_item-{{img.id}}').toggle(); $('#img_item-{{img.id}}').val('delete')" >Excluir</b>
-							</figcaption>
-						</figure>
-					</div>
-						<input type="num" id="img_item-{{img.id}}" name="img-del-{{img.id}}" style="display:none;">
+	 			<div class="img_edit">
+	 				{%if imgs %}
+						{% for img in imgs[post.id] %}
+							{% if img %}
+								<div class="img_edit_item img_item-{{img.id}}">
+									<figure>
+										<img src="data:;base64,{{img.img}}">
+										<figcaption>
+											<b onclick="$('.img_item-{{img.id}}').toggle(); $('#img_item-{{img.id}}').val('delete')" >Excluir</b>
+										</figcaption>
+									</figure>
+								</div>
+								<input type="num" id="img_item-{{img.id}}" name="img-del-{{img.id}}" style="display:none;">
+							{% endif %}
+						{% endfor %}
 					{% endif %}
-				{% endfor %}
-				{% endif %}
-			</div>
+				</div>
 			{% else %}
 				{% if img %}
-					<div class="img_edit_item img_item-1">
+				<div class="img_edit">
+					<label id="perfil_img1_label"></label>
+					<div class="img_item-1 img_edit_item">
 						<figure>
-							<img src="data:;base64,{{img.img}}">
+							<img src=" data:;base64,{{img.img}}" >
 							<figcaption>
 								<b onclick="$('.img_item-1').toggle(); $('#img_item-1').val('delete')" >Excluir</b>
 							</figcaption>
 						</figure>
 					</div>
-						<input type="num" id="img_item-1" name="img-del" style="display:none;">
+				</div>
+		
+					<input type="num" id="img_item-1" name="img-del" style="display:none;">
+				
 				{% endif %}
 			{% endif %}
 		</div>

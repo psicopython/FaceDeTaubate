@@ -41,9 +41,6 @@ def del_pag(pag,id):
 					for comm in comms:
 						if comm:
 							
-							if session['user_id'] != comm.id_user:
-								return redirect('/?user_invalid')
-								
 								
 							comm_img = ImgComm.query.filter_by(id_comm=comm.id).first()
 							reacs = ReacoesComm.query.filter_by(id_comm=comm.id).all()
@@ -97,10 +94,10 @@ def del_pag(pag,id):
 						
 				current_app.db.session.delete(comm)
 				current_app.db.session.commit()
-				return redirect('/?ok')
-			return redirect('/?not_com')
+				return redirect('/')
+			return redirect('/')
 				
 		else:
-			return redirect('/?pag_err')
+			return redirect('/')
 	else:
-		return redirect('/?post')
+		return redirect('/')

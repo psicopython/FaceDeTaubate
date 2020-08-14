@@ -15,9 +15,20 @@
 	{% endif %}
 {% endwith %}
 <br>
+<div class="container flex">
+	<div class="container alert-success">
+		<b>Se não quiser se cadastrar,<br>
+		use essas credenciais:</b>
+		<br>
+		<span>email: user@user.com</span><br>
+		<span>Senha: senha</span>
+	</div>
+</div>
+<br>
+
 <form action="/login/" method="post">
-	<input class="form-control" type="email" placeholder="Email"      name="email"><br>
-	<input class="form-control senha" type="password" placeholder="Senha"   name="senha"><br>
+	<input class="form-control" type="email" placeholder="user@user.com"    name="email"><br>
+	<input class="form-control senha" type="password" placeholder="senha"   name="senha"><br>
 	<input class="btn-senha" id="btn-senha2" type="checkbox"><label for="btn-senha2" class="lab-senha">Mostrar Senha</label>
 	<button class="form-control btn btn-outline-primary" type="submit">Entrar</button>
 	<br><br>

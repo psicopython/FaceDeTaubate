@@ -7,7 +7,7 @@ from .posts       import post
 from .reacao      import like, unlike
 from .reacao      import likeComm, unlikeComm
 from .comentarios import comentario
-# from .compartilhar import shared
+
 
 from .perfil import perfil
 from .edit_perfil import editar_perfil

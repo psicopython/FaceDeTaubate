@@ -50,7 +50,6 @@ def edit_pag(pag,id):
 			
 			
 			
-			
 	if pag.upper() == 'POST':
 		post = Post.query.filter_by(id=id).first()
 		if post:
@@ -117,7 +116,14 @@ def edit_pag(pag,id):
 			body = request.form['body']
 			img = request.files['img']
 			
-			if body:
+			
+						
+					
+				
+				
+			imgC = ImgComm.query.filter_by(id_comm=id).first()
+			
+			if body or img:
 				bodyLast = Comentario.query.filter_by(id=id).update({'body':body})
 				current_app.db.session.commit()
 				
@@ -126,9 +132,16 @@ def edit_pag(pag,id):
 					current_app.db.session.add(comm_img)
 					current_app.db.session.commit()
 					
+				if imgC:
+					val = request.form['img-del']
+					if val == 'delete' or img:
+						current_app.db.session.delete(imgC)
+						current_app.db.session.commit()
+			
+			
 				return redirect('/')
 			else:
-				flash('o campo não pode ficar vazio!')
+				flash('Algum Campo deve ser preenchido!')
 				return redirect(request.url)
 			
 		else:
