@@ -10,12 +10,14 @@
           
 	</head>
 
-	<body class="">
-	{% if user_local%}
+	<body>
+		
+		
+		{% if user_local%}
 		 <div class="cabecalho">
 			<figure>
 				{% if user_local.img %}
-					<img src="data:;base64,{{user_local.img}}">
+					<img id="perfil_img" src="data:;base64,{{user_local.img}}">
 				{% else %}
 					<img src="{{url_for('static',filename='img/perfil/img_user_m.jpg')}}">
 				{% endif %}
@@ -24,7 +26,10 @@
 				</figcaption>
 			</figure>
 		</div>
-	{% endif %}
+		{% endif %}
+	
+	
+	
 		<nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<a class="navbar-brand" href="/">DeepWebSocial</a>
 		
@@ -45,28 +50,35 @@
 						<li class="nav-item">
 							<b class="nav-link solicitacao" onclick="$('.solicitacao').toggle()">Ver solicitações({{user.solsLen}})</b>
 							<b class="nav-link solicitacao" onclick="$('.solicitacao').toggle()" style="display:none;">Ocultar</b>
-							<br>
-								{% if user.solsLen > 0 %}
-								<div class="publicacoes solicitacao" style="display:none;">
-									<b>Solicitações</b><br>
-									<ul>
-											
-									{% for sol in user.sols %}
-										<li><a href="/{{sol.user.id}}/{{sol.user.nome.lower()}}/">
-											{{sol.user.nome.split()[0]}}<br>
-										</a>
-											<a class="btn btn-outline-primary" href="/amizade/responder/{{sol.user.id}}/">Aceitar</a> 
-											<a class="btn btn-outline-danger" href="/amizade/cancelar_solicitacao/{{sol.user.id}}/">Recusar</a>
-										</li>
-									{% endfor %}
-									</ul>
-								</div>
-								{% endif %}
+							<div class="publicacoes solicitacao" style="display:none;">
+								<b>Solicitações</b>
+								<ul>
+										
+								{% for sol in user.sols %}
+									<li><a href="/{{sol.user.id}}/{{sol.user.nome.replace(' ','_')}}/">
+										{{sol.user.nome }}<br>
+									</a>
+										<a class="btn btn-outline-primary" href="/amizade/responder/{{sol.user.id}}/">Aceitar</a> 
+										<a class="btn btn-outline-danger" href="/amizade/cancelar_solicitacao/{{sol.user.id}}/">Recusar</a>
+									</li>
+								{% endfor %}
+								</ul>
+							</div>
+						</li>
+						{% else %}
+						<li class="nav-item">
+							<a class="nav-link sol_vazio" onclick="$('.sol_vazio').toggle()">Solicitações (0)</a>
+							<a class="nav-link sol_vazio" onclick="$('.sol_vazio').toggle()" style="display:none;">Fechar</a>
+							<li class="nav-item sol_vazio publicacoes" style="display:none;">
+								<i>Nenhuma Solicitação</i>
+							</li>
 						</li>
 						{% endif %}
+						
 						<li class="nav-item">
 							<a class="nav-link" href="{{url_for('webui.logout')}}">Sair</a>
 						</li>
+						
 					{% else %}
 						<li class="nav-item">
 							<a class="nav-link" href="{{url_for('webui.cadastro')}}">Cadastro</a>

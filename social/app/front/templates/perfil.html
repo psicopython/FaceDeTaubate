@@ -33,9 +33,7 @@ Perfil - {{user_local.nome}}
 					<br>
 					<sup onclick="$('#des_ami').toggle()">
 						✓ AMIGO desde 
-						{{user.amigo.data.day}} /
-						{{user.amigo.data.month}} /
-						{{user.amigo.data.year}}
+						{{user.amigo.data.day}}/{{user.amigo.data.month}}/{{user.amigo.data.year}}
 					</sup>
 					<br>
 					<a id="des_ami" style="display:none;" class="btn btn-outline-danger" href="/amizade/desfazer/{{user_local.id}}/">

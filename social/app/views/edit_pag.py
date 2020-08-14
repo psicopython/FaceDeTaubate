@@ -9,6 +9,13 @@ import base64
 
 from app.model.post import Post
 from app.model.ImgPost import ImgPost
+
+from app.model.user import User
+from app.model.user_img import UserImg
+
+from app.model.amigo import Solicitacao as Sl
+
+
 from app.model.ImgPost import ImgComm
 from app.model.comentario import Comentario
 
@@ -17,6 +24,33 @@ from app.model.comentario import Comentario
 def edit_pag(pag,id):
 	if not 'user_id' in session:
 		return redirect('/')
+	
+	user = User.query.filter_by(id=session['user_id']).first()
+	if user:
+		img = UserImg.query.filter_by(id_user=user.id).first()
+		if img:
+			user.img = base64.b64encode(img.imagem).decode('ascii')
+
+		listSol = []
+		sols = Sl.query.filter_by(id_re=user.id).all()
+		for sol in sols:
+			usu = User.query.filter_by(id=sol.id_en).first()
+			usuImg = UserImg.query.filter_by(id_user=usu.id).first()
+			listSol.append({
+				'user':usu,
+				'img':base64.b64encode(usuImg.imagem).decode('ascii')
+			})
+		user.solsLen = len(listSol)
+		user.sols = listSol	
+
+	else:
+		user = None
+		session.clear()
+		return redirect('/')
+			
+			
+			
+			
 	if pag.upper() == 'POST':
 		post = Post.query.filter_by(id=id).first()
 		if post:
@@ -64,7 +98,11 @@ def edit_pag(pag,id):
 				else:
 					imgs[post.id] = [{'id':img.id,'img':base64.b64encode(img.imagem).decode('ascii')}]
 					
-			return render_template('edit_post.html',post=post,imgs=imgs,pag=pag)
+			return render_template(
+					'edit_post.html',
+					post=post,imgs=imgs,
+					pag=pag,user=user
+				)
 	
 	
 	
@@ -97,4 +135,9 @@ def edit_pag(pag,id):
 			comm = Comentario.query.filter_by(id=id).first()
 			img = ImgComm.query.filter_by(id_comm=id).first()
 			imgs = {'id':img.id,'img':base64.b64encode(img.imagem).decode('ascii')} if img else False
-			return render_template('edit_post.html',post=comm,pag=pag,img=imgs)
+			
+			return render_template(
+					'edit_post.html',
+					post=comm,pag=pag,
+					img=imgs,user=user
+			)

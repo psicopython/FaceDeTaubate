@@ -36,7 +36,7 @@ def perfil(id,nome):
 	if not user_local:
 		return redirect('/')
 	else:
-		if user_local.nome.split()[0].lower()!= nome:
+		if user_local.nome.replace(' ','_') != nome:
 			return redirect('/')
 			
 		img = UserImg.query.filter_by(id_user=user_local.id).first()

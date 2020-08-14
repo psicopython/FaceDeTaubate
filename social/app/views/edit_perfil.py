@@ -12,6 +12,9 @@ from werkzeug.security import generate_password_hash as gph
 from app.model.user     import User
 from app.model.user_img import UserImg
 
+from app.model.amigo import Solicitacao as Sl
+
+
 
 
 def editar_perfil(id,nome):
@@ -20,7 +23,30 @@ def editar_perfil(id,nome):
 		
 	if session['user_id'] != id:
 		return redirect('/?not_found')
+	
 	user = User.query.filter_by(id=session['user_id']).first()
+	if user:
+		img = UserImg.query.filter_by(id_user=user.id).first()
+		if img:
+			user.img = base64.b64encode(img.imagem).decode('ascii')
+
+		listSol = []
+		sols = Sl.query.filter_by(id_re=user.id).all()
+		for sol in sols:
+			usu = User.query.filter_by(id=sol.id_en).first()
+			usuImg = UserImg.query.filter_by(id_user=usu.id).first()
+			listSol.append({
+				'user':usu,
+				'img':base64.b64encode(usuImg.imagem).decode('ascii')
+			})
+		user.solsLen = len(listSol)
+		user.sols = listSol	
+
+	else:
+		user = None
+		session.clear()
+		return redirect('/')
+	
 	
 	if request.method.lower() == 'post':
 		
@@ -96,4 +122,8 @@ def editar_perfil(id,nome):
 		img  = UserImg.query.filter_by(id_user=user.id).first()
 		if img:
 			user.img = base64.b64encode(img.imagem).decode('ascii')
-		return render_template('edit_perfil.html',user=user)
+		return render_template(
+				'edit_perfil.html',
+				user_local=user,
+				user=user,
+			)

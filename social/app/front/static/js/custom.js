@@ -53,7 +53,7 @@ function carregar_foto_perfil(input) {
   }
    else {
    	$('#perfil_img').attr('src','/static/img/perfil/user_img.png');
-   	$('#perfil_img_label').append('<span id="perfil_img_alert" class="alert alert-warning">Nenhuma foto selecionada,<br> usaremos a imagem padrão!</span>');
+   	$('#perfil_img_label').append('<span id="perfil_img_alert" class="alert alert-warning">Nenhuma foto selecionada!</span><br>');
 	}
    	
    }

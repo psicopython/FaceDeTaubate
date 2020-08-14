@@ -14,16 +14,19 @@
 	{% for post in posts %}
 	<div class="publicacoes">
 	<hr>
-		<div>
+		<div class="">
 		{%if user %}
 				
 				
 			{% if user.id == post.user.id %}
-			<span class="" onclick="$('.editar-{{post.id}}-post').toggle()">. . .</span><br>
-			<div  style="display:none;" class="editar-{{post.id}}-post">
-				<a class="btn btn-outline-warning" href="/editar/post/{{post.id}}/">Editar</a>
-				<a class="btn btn-outline-danger" href="/excluir/post/{{post.id}}/">excluir</a>
-			</div>
+			<span class="editar-{{post.id}}-post" onclick="$('.editar-{{post.id}}-post').toggle()">...</span>
+			<span class="editar-{{post.id}}-post" onclick="$('.editar-{{post.id}}-post').toggle()" style="display:none;">X</span>
+			{#	
+				<div  style="display:none;" class="editar-{{post.id}}-post publicacoes-config">
+					<a class="btn btn-outline-warning" href="/editar/post/{{post.id}}/">Editar</a>
+					<a class="btn btn-outline-danger" href="/excluir/post/{{post.id}}/">excluir</a>
+				</div>
+			#}
 			{% endif %}
 					
 
@@ -36,7 +39,7 @@
 			
 		<div>
 			<h3>
-				<a href="/{{post.user.id}}/{{post.user.nome.split()[0].lower()}}/">
+				<a href="/{{post.user.id}}/{{post.user.nome.replace(' ','_')}}/">
 				{% if post.user.img %}
 					<img class="miniatura" src="data:;base64,{{post.user.img}}">
 				{% endif %}
@@ -130,27 +133,39 @@
 		<div id="comentario-{{post.id}}" class="publicacoes" style="display:none;">
 			<hr>
 			{% for comm in post.comm %}
-			<div class="conteiner publicacoes bg-info">
-				<a href="/{{comm.user.id}}/{{comm.user.nome.split()[0]}}/">
-					<b>{%if comm.user.img %}<img class="miniatura" src="data:;base64,{{ comm.user.img }}">{%endif%}
-					{{ comm.user.nome}}
-				</a>
-				{% if comm.user.id == post.id_user %}
-					<sup>autor</sup>
-				{% endif %}
-				
-				
+			<div class="conteiner comentarios bg-info">
 				{% if user %}
 					{% if user.id == comm.user.id %}
-					<span onclick="$('.editar-{{comm.id}}-comm').toggle()">...</span><br>
-					<div  style="display:none;" class="editar-{{comm.id}}-comm">
+						
+					<span class="editar-{{comm.id}}-comm" onclick="$('.editar-{{comm.id}}-comm').toggle(1000)">...</span>
+					<span class="editar-{{comm.id}}-comm" onclick="$('.editar-{{comm.id}}-comm').toggle(1000)" style="display:none;">X</span>
+					
+				{#	<div  style="display:none;" class="editar-{{comm.id}}-comm comentario-config">
 						<a class="btn btn-outline-warning" href="/editar/comm/{{comm.id}}/">Editar</a>
 						<a class="btn btn-outline-danger" href="/excluir/comm/{{comm.id}}/">excluir</a>
 					</div>
+				#}
+					
 					{% endif %}
 				{% endif %}
 				
-				</b>
+				<span>
+				<p>
+				{%if comm.user.img %}<img class="miniatura" src="data:;base64,{{ comm.user.img }}">{%endif%}
+					<a href="/{{comm.user.id}}/{{comm.user.nome.replace(' ','_')}}/">
+						{{ comm.user.nome.split()[0]}} {% if comm.user.nome.split()|length > 1 %}{{ comm.user.nome.split()[-1][:5]}}...{% endif %}
+					</a>
+					{% if comm.user.id == post.id_user %}
+						<sup>autor</sup>
+					{% endif %}
+				</span>
+				<sup><i><br>
+					{{post.data.day }}/{{post.data.month }}/{{post.data.year }} às {{post.data.hour }}:{{post.data.minute }}
+				</i></sup>
+					
+					
+				
+				</p>
 				<pre><i>{{comm.body}}</i></pre>
 				{% if comm.img %}
 				<div>
@@ -191,6 +206,17 @@
 						</a>
 					{% endif %}
 				</div>
+				
+				{% if user %}
+					{% if user.id == comm.user.id %}
+					
+					<div  style="display:none;" class="editar-{{comm.id}}-comm comentario-config">
+						<a class="btn btn-outline-warning" href="/editar/comm/{{comm.id}}/">Editar</a>
+						<a class="btn btn-outline-danger" href="/excluir/comm/{{comm.id}}/">excluir</a>
+					</div>
+					
+					{% endif %}
+				{% endif %}
 			</div>
 			{% endfor %}
 			<hr>
@@ -202,12 +228,22 @@
 		{% if user %}
 		<form action="/comentario/post/{{post.id}}/" enctype="multipart/form-data" method="post">
 			<textarea  type="text" name="body" class="form-control" placeholder="comentario"></textarea><br>
-			<label class="btn btn-dark" for="input-file-{{post.id}}">Imagem</label>
+			
+			<input type="submit" class="btn btn-primary" value="Comentar">
+			<label for="input-file-{{post.id}}"><b class="btn btn-outline-dark">Imagem</b></label>
+		
 			<input id="input-file-{{post.id}}" name="img" type="file" accept="Image/*" style="display:none;">
-			<button type="submit" class="form-control btn btn-primary">Comentar</button>
 		</form>
 		{% endif %}
-			
+		
+		{% if user.id == post.user.id %}
+		<div  style="display:none;" class="editar-{{post.id}}-post publicacoes-config">
+			<a class="btn btn-outline-warning" href="/editar/post/{{post.id}}/">Editar</a>
+			<a class="btn btn-outline-danger" href="/excluir/post/{{post.id}}/">excluir</a>
+		</div>
+		{% endif %}
+					
+		
 	</div>
 	<hr>
 	{% endfor %}

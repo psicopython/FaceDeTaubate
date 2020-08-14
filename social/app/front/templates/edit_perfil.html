@@ -11,34 +11,34 @@ Editar Perfil
 	
 	{% with msgs = get_flashed_messages() %}
 		{% if msgs %}
-			<div class="alert alert-danger">
+		<br><div class="alert alert-danger flex">
 				{% for msg in msgs %}
-					{{ msg }}<br>
+					{{ msg }}
+					
 				{% endfor %}
 			</div>
 		{% endif %}
 	{% endwith %}
 	
-	<form action="/{{user.id}}/{{user.nome.split()[0]}}/editar/"
+	<form action="/{{user_local.id}}/{{user_local.nome.split()[0]}}/editar/"
 		enctype="multipart/form-data" method="post">
 		
 		
 		<br>
 		<label for="nome" onclick="$('#nome').toggle()">Nome</label>
-		<br>
 		<input class="form-control" style="display:none;" id="nome" type="text" name="nome" placeholder="Novo nome">
 		
-		<br>
+		
+		<div id="perfil_img_label" class="flex" ></div>
 		
 		<b onclick="$('#btn-foto').toggle()">Foto de perfil</b>
 		<br>
-		<label style="display:none;" id="btn-foto" class="form-control btn btn-outline-info" for="foto" >img</label>
-		<input style="display:none;" id="foto" type="file" accept="image/*" name="img">
+		<label style="display:none;" id="btn-foto" class="form-control btn btn-outline-info" for="new_img" >img</label>
+		<input style="display:none;" id="new_img" type="file" accept="image/*" name="img">
 		
 		<br>
 		
 		<label for="email" onclick="$('.email').toggle()">Email</label>
-		<br>
 		<input style="display:none;" class="form-control email" id="email" class="email" type="email" name="email1" placeholder="novo email">
 		<br>
 		<input style="display:none;" class="form-control email" type="email" name="email2" placeholder="repita o novo email">
@@ -46,7 +46,6 @@ Editar Perfil
 		<br>
 	
 		<label for="senha" onclick="$('.senha').toggle()">Senha</label>
-		<br>
 		<input style="display:none;" class="form-control senha" id="senha" type="password" name="senha1" placeholder="nova senha">
 		<br>
 		<input style="display:none;" class="form-control senha" type="password" name="senha2" placeholder="repita a nova senha">
