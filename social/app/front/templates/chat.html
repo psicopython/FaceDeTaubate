@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Chat
+{% endblock titulo %}
+
+{% block conteudo %}
+<div class="container">
+	<div class="container">
+		<br>
+		<div>
+			<h3>
+				<img class="miniatura" src="data:;base64,{{ user_rec.img }}">
+				{{ user_rec.nome }}
+			</h3>
+		</div>
+		<hr>
+		<br>
+		{% if msgs %}
+			{% for msg in msgs %}
+				{% if msg.id_1 == user.id %}
+				<div class="right">
+					{{msg.user.nome}}
+					<img class="miniatura" src="data:;base64,{{msg.user.img}}">
+					<br>
+					<a href="/chat/excluir/msg/{{msg.id}}/">Delete</a>
+					<pre class="btn alert-info right">{{msg.dec}}{% if msg.msgImg %}<img src="data:;base64,{{msg.msgImg}}">{% endif %}</pre><br>
+				</div>
+				{% else %}
+				<div >
+					{{msg.user.nome}}
+					<br>
+					<a href="/chat/excluir/msg/{{msg.id}}/">Delete</a>
+					<pre class="btn alert-success">{{msg.dec}}{% if msg.msgImg %}<img src="data:;base64,{{msg.msgImg}}">{% endif%}</pre>
+					
+				</div>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+	</div>
+	<hr>
+	<div >
+		<form method="post" action="/chat/{{user_rec.id}}/{{user_rec.nome.replace(' ','_')}}/" enctype="multipart/form-data">
+			<textarea class="form-control" name="body" autofocus placeholder="Mensagem"></textarea><br>
+			<input type="submit" class="btn btn-outline-primary" value="Enviar">
+			<label for="inp"><b class="btn btn-outline-dark">img</b></label>
+			<input id="inp" type="file" accept="imagem/*" style="display:none;" name='img'>
+		</form>
+	</div>
+</div>
+{% endblock conteudo %}

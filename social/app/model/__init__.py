@@ -28,3 +28,6 @@ from . import ImgPost
 
 from . import reacoes
 from . import comentario
+
+
+from . import chat

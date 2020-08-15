@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Chats
+{% endblock titulo %}
+
+
+{% block conteudo %}
+<div class="container">
+	
+	{% if convs %}
+		{% for conv in convs %}
+		<div class="container">
+			<hr>
+			<b class="rigth">
+				<a class=" btn-outline-danger" href="/chat/excluir/chat/{{conv.id}}/">
+				excluir
+				</a>
+			</b>
+			<a href="/chat/{{conv.user_env.id}}/{{conv.user_env.nome.replace(' ','_')}}/">
+				<h3>
+					<img class="miniatura" src="data:;base64,{{conv.user_env.img}}" >
+					{{conv.user_env.nome}}
+				</h3>
+			</a>
+			<sub>
+				{{conv.f_msg}}
+			</sub>
+		</div>
+		{% endfor %}
+	{% endif %}
+	
+</div>
+{% endblock conteudo %}

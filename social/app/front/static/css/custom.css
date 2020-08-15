@@ -213,3 +213,14 @@ a{
 	display: flex;
 	flex-wrap: wrap;
 }
+
+.right {
+	text-align: right;
+}
+
+/* CHAT */
+
+.text_chat {
+	position: relative;
+	
+}

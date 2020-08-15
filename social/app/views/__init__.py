@@ -5,20 +5,26 @@ from .index    import index
 
 from .posts       import post
 from .reacao      import like, unlike
+
 from .reacao      import likeComm, unlikeComm
 from .comentarios import comentario
 
 
-from .perfil import perfil
+from .perfil      import perfil
 from .edit_perfil import editar_perfil
-from .amigo  import sol,ami,des_ami,can_sol
+
+from .amigo       import sol,ami,des_ami,can_sol
 
 from .del_pag    import del_pag
 from .edit_pag  import edit_pag
 
-from .cadastro import cadastro
+from .mensagem import chat
+from .mensagem import del_chat
+from .mensagem import all_chat
+
 from .login    import login
 from .logout   import logout
+from .cadastro import cadastro
 
 
 
@@ -69,26 +75,30 @@ bp.add_url_rule('/logout/',methods=["GET"],view_func=logout,endpoint='logout')
 # criar post
 
 bp.add_url_rule('/post/', methods=["POST"],
-	view_func=post,endpoint='post')
+	view_func=post,endpoint='post'
+)
 
 
 
 # comentarios
 
 bp.add_url_rule('/comentario/<string:pag>/<int:id>/',
-	methods=["POST"], view_func=comentario, endpoint='comentario')
+	methods=["POST"], view_func=comentario, endpoint='comentario'
+)
 
 
 
 # like nas publicações
 
 bp.add_url_rule('/post/like/<int:id>/', methods=["GET"],
-	view_func=like,endpoint='like_post')
+	view_func=like,endpoint='like_post'
+)
 	
 # deslike nas publicações
 
 bp.add_url_rule('/post/unlike/<int:id>/', methods=["GET"],
-	view_func=unlike,endpoint='unlike_post')
+	view_func=unlike,endpoint='unlike_post'
+)
 
 
 
@@ -96,24 +106,42 @@ bp.add_url_rule('/post/unlike/<int:id>/', methods=["GET"],
 # like nos comentários
 
 bp.add_url_rule('/comentario/like/<int:id>/', methods=["GET"],
-	view_func=likeComm,endpoint='like_comm')
+	view_func=likeComm,endpoint='like_comm'
+)
 	
 # deslike nos comentários
 
 bp.add_url_rule('/comentario/unlike/<int:id>/', methods=["GET"],
-	view_func=unlikeComm,endpoint='unlike_comm')
+	view_func=unlikeComm,endpoint='unlike_comm'
+)
 
 
 
 
 bp.add_url_rule('/excluir/<string:pag>/<int:id>/',  methods=["GET","POST"],
-	view_func=del_pag,endpoint='del_pag')
+	view_func=del_pag,endpoint='del_pag'
+)
 		
 bp.add_url_rule('/editar/<string:pag>/<int:id>/',   methods=["GET","POST"],
-	view_func=edit_pag,endpoint='edit_pag')
+	view_func=edit_pag,endpoint='edit_pag'
+)
 
 
 
+bp.add_url_rule('/chat/<int:id_2>/<string:nome>/',methods=["GET","POST"],
+	view_func=chat, endpoint='chat'
+)
+
+bp.add_url_rule('/chat/excluir/<string:opt>/<int:id>/',methods=["GET","POST"],
+	view_func=del_chat, endpoint='del_chat'
+)
+
+bp.add_url_rule('/chat/',methods=["GET"],
+	view_func=all_chat, endpoint='all_chat'
+)
+
+	
+	
 	
 def config_vw(app):
 	app.register_blueprint(bp)

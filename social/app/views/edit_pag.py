@@ -152,5 +152,6 @@ def edit_pag(pag,id):
 			return render_template(
 					'edit_post.html',
 					post=comm,pag=pag,
-					img=imgs,user=user
+					img=imgs,user=user,
+					editar=True,
 			)
